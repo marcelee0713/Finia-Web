@@ -51,9 +51,6 @@ const config: Config = {
           },
         },
       },
-      fontFamily: {
-        openSans: ["Open Sans", "sans-serif"],
-      },
       colors: {
         primary: "#001220",
         secondary: "#F7DC2A",
