@@ -4,6 +4,7 @@ export const AUTH_PAGES = [
   "/sign-in",
   "/sign-up",
   "/verify-email",
+  "/forgot-password",
   "/reset-password",
 ];
 

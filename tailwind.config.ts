@@ -55,6 +55,7 @@ const config: Config = {
         primary: "#001220",
         secondary: "#F7DC2A",
         accent: "#DFDFDF",
+        borderColor: "rgba(247, 220, 42, 0.6)",
       },
     },
   },

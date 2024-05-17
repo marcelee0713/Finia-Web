@@ -1,5 +1,4 @@
 "use client";
-
 import { Toaster } from "sonner";
 import { getUserData } from "@/api/user";
 import apiUrl from "@/config";
@@ -25,6 +24,9 @@ export const Provider: React.FC<props> = ({ children }) => {
     },
     onError() {
       setUser(null);
+      // TODO: Solve the problem where we couldn't remove the cookies.
+
+      // If not possible, then when this error comes, Show a really big modal that it would ask the user to log out and re log in.
     },
   });
 
@@ -37,7 +39,16 @@ export const Provider: React.FC<props> = ({ children }) => {
         },
       }}
     >
-      <Toaster />
+      <Toaster
+        position="bottom-center"
+        toastOptions={{
+          style: {
+            background: "#F7DC2A",
+            color: "#001220",
+            border: "none",
+          },
+        }}
+      />
       {children}
     </Context.Provider>
   );
