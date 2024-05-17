@@ -1,5 +1,6 @@
 "use client";
 
+import { Toaster } from "sonner";
 import { getUserData } from "@/api/user";
 import apiUrl from "@/config";
 import { ProviderData, UserData } from "@/interfaces/user";
@@ -36,6 +37,7 @@ export const Provider: React.FC<props> = ({ children }) => {
         },
       }}
     >
+      <Toaster />
       {children}
     </Context.Provider>
   );

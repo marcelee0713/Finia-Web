@@ -9,11 +9,11 @@ const config: Config = {
   theme: {
     extend: {
       animation: {
-        animfadeAbove: "fadeAbove 800ms ease-in-out",
-        animfadeBelow: "fadeBelow 800ms ease-in-out",
-        animfadeLeftSide: "fadeLeftSide 800ms ease-in-out",
-        animfadeRightSide: "fadeRightSide 800ms ease-in-out",
-        animFullHeight: "fullHeight 800ms ease-in-out",
+        animfadeAbove: "fadeAbove 1.5s ease-in-out",
+        animfadeBelow: "fadeBelow 1.5s ease-in-out",
+        animfadeLeftSide: "fadeLeftSide 1.5s ease-in-out",
+        animfadeRightSide: "fadeRightSide 1.5s ease-in-out",
+        animFullHeight: "fullHeight 1.5s ease-in-out",
       },
       keyframes: {
         fadeAbove: {
