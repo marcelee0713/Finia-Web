@@ -17,6 +17,7 @@ export const ImageBackground = ({ image }: props) => {
         objectFit: "cover",
         zIndex: -1,
       }}
+      className="animate-animFullHeight"
     />
   );
 };

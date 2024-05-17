@@ -20,7 +20,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="h-screen max-w-full">
+    <html lang="en" className="h-screen max-w-full scroll-smooth">
       <body className={`${openSans.className} w-full h-full bg-primary flex`}>
         <Provider>{children}</Provider>
       </body>
