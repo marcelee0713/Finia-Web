@@ -15,7 +15,9 @@ import { useRouter } from "next/navigation";
 
 const SignIn = () => {
   const [visible, setVisible] = useState(false);
+
   const [processing, setProcessing] = useState(false);
+
   const router = useRouter();
 
   const states: CallbacksInterface = {
@@ -29,7 +31,7 @@ const SignIn = () => {
       toast.dismiss();
       toast.error(result.message);
     },
-    onSuccess(result) {
+    onSuccess() {
       setProcessing(false);
       toast.dismiss();
       router.replace("/dashboard");

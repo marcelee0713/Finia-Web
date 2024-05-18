@@ -2,6 +2,7 @@ import { AboutInfo } from "@/interfaces/about";
 
 export const AUTH_PAGES = [
   "/",
+  "/about",
   "/sign-in",
   "/sign-up",
   "/verify-email",

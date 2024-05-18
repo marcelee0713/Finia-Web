@@ -31,9 +31,10 @@ export const Provider: React.FC<props> = ({ children }) => {
       setUser(data);
     },
     onError() {
-      setUser(null);
-
-      if (!AUTH_PAGES.includes(pathname) && !active) {
+      if (
+        (!AUTH_PAGES.includes(pathname) && !active) ||
+        (user && pathname === "/about" && !active)
+      ) {
         toast.dismiss();
 
         toast.error("Session expired, please re-login.", {
@@ -49,6 +50,8 @@ export const Provider: React.FC<props> = ({ children }) => {
           },
         });
       }
+
+      setUser(null);
     },
   });
 
