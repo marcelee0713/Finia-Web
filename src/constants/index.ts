@@ -1,11 +1,13 @@
 import { AboutInfo } from "@/interfaces/about";
 
 export const AUTH_PAGES = [
+  "/",
   "/sign-in",
   "/sign-up",
   "/verify-email",
   "/forgot-password",
   "/reset-password",
+  "/greet",
 ];
 
 export const ABOUT_US_INFOS = {

@@ -34,7 +34,7 @@ export async function middleware(req: NextRequest) {
           return next;
         }
 
-        const res = req.cookies.delete("token");
+        req.cookies.delete("token");
 
         return NextResponse.redirect(signIn);
       });
@@ -57,6 +57,7 @@ export const config = {
     "/forgot-password",
     "/reset-password",
     "/verify-email",
+    "/greet",
     "/dashboard",
   ],
 };
