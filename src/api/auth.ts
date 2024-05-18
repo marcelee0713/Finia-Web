@@ -73,6 +73,29 @@ export const signUp = async (
   return onSuccess(`${username}:${email}`);
 };
 
+export const emailVerify = async (
+  endpoint: string,
+  token: string
+): Promise<void> => {
+  const res = await fetch(endpoint, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      token: token,
+    }),
+    mode: "cors",
+    credentials: "include",
+    method: "POST",
+  });
+
+  if (!res.ok) {
+    const err: ErrorResponse = await res.json();
+
+    throw err;
+  }
+};
+
 export const emailVerificationRequest = async (
   username: string,
   { onLoading, onError, onSuccess }: CallbacksInterface

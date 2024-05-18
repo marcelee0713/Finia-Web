@@ -28,6 +28,7 @@ const Greet = () => {
           width={250}
           className="animate-wiggle"
         />
+
         <div className="flex flex-col gap-2 text-center animate-animfadeAbove">
           <div className="font-bold text-4xl text-secondary">
             {username ? `Welcome, ${username}!` : "Hello!"}
@@ -38,6 +39,7 @@ const Greet = () => {
               : "Seems like you went here by yourself?"}
           </div>
         </div>
+
         {username && email && (
           <Link
             className="font-bold text-secondary animate-animfadeBelow"
