@@ -72,3 +72,42 @@ export const signUp = async (
 
   return onSuccess(`${username}:${email}`);
 };
+
+export const emailVerificationRequest = async (
+  username: string,
+  { onLoading, onError, onSuccess }: CallbacksInterface
+): Promise<void> => {
+  onLoading();
+
+  const res = await fetch(`${apiUrl}/users/req-email-verification`, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+    mode: "cors",
+    credentials: "include",
+    body: JSON.stringify({
+      username: username,
+    }),
+    method: "POST",
+  });
+
+  if (!res.ok) {
+    if (res.status === 429) {
+      const err: ErrorResponse = {
+        message: "Too much request, try again later!",
+        status: "429",
+        type: "Too much request already",
+      };
+      onError(err);
+      return;
+    }
+
+    const err: ErrorResponse = await res.json();
+    onError(err);
+    return;
+  }
+
+  return onSuccess(
+    "We have sent you an email verification to your email address."
+  );
+};

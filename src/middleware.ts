@@ -17,7 +17,8 @@ export async function middleware(req: NextRequest) {
     pathname.startsWith("/sign-up") ||
     pathname.startsWith("/forgot-password") ||
     pathname.startsWith("/reset-password") ||
-    pathname.startsWith("/verify-email");
+    pathname.startsWith("/verify-email") ||
+    pathname.startsWith("/greet");
 
   if (haveToken) {
     const token = req.cookies.get("token");

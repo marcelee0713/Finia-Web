@@ -1,3 +1,21 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.stylish-y-scroll {
+  /* For Webkit-based browsers (e.g., Chrome, Safari) */
+  &::-webkit-scrollbar {
+    background-color: #001220; /* Thumb color */
+    width: 8px; /* Adjust the width as needed */
+  }
+
+  &::-webkit-scrollbar-track {
+    border-radius: 8px;
+    background: #001220; /* Track color */
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: #f7dc2a; /* Thumb color */
+    border-radius: 8px; /* Rounded corners for the thumb */
+  }
+}

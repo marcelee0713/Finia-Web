@@ -43,6 +43,7 @@ const SignUp = () => {
       const email = split[1];
 
       router.replace(`/greet?username=${username}&email=${email}`);
+      toast.dismiss();
     },
   };
 

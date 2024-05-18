@@ -10,7 +10,7 @@ import { signInSchema } from "@/schemas/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { signIn } from "@/api/auth";
+import { emailVerificationRequest, signIn } from "@/api/auth";
 import { useRouter } from "next/navigation";
 
 const SignIn = () => {
@@ -20,7 +20,25 @@ const SignIn = () => {
 
   const router = useRouter();
 
-  const states: CallbacksInterface = {
+  const emailCallback: CallbacksInterface = {
+    onLoading() {
+      setProcessing(true);
+      toast.dismiss();
+      toast.loading("Sending...");
+    },
+    onError(result) {
+      setProcessing(false);
+      toast.dismiss();
+      toast.error(result.message);
+    },
+    onSuccess(result) {
+      setProcessing(false);
+      toast.dismiss();
+      toast.success(result);
+    },
+  };
+
+  const signInCallback: CallbacksInterface = {
     onLoading() {
       setProcessing(true);
       toast.dismiss();
@@ -29,7 +47,22 @@ const SignIn = () => {
     onError(result) {
       setProcessing(false);
       toast.dismiss();
-      toast.error(result.message);
+      if (result.type !== "unverified-email") {
+        toast.error(result.message);
+        return;
+      }
+
+      toast.error(result.message, {
+        description: "Would you like to send another request?",
+        action: {
+          label: "OK",
+          onClick: async () =>
+            await emailVerificationRequest(
+              getValues("username"),
+              emailCallback
+            ),
+        },
+      });
     },
     onSuccess() {
       setProcessing(false);
@@ -41,6 +74,7 @@ const SignIn = () => {
   const {
     register,
     handleSubmit,
+    getValues,
     formState: { errors },
   } = useForm<SignInFormData>({
     resolver: zodResolver(signInSchema),
@@ -50,7 +84,7 @@ const SignIn = () => {
     <main className="flex flex-col h-full w-full p-8 overflow-y-auto items-center justify-center">
       <ImageBackground image={bg_1} />
       <form
-        onSubmit={handleSubmit((data) => signIn(data, states))}
+        onSubmit={handleSubmit((data) => signIn(data, signInCallback))}
         className="flex flex-col gap-5 h-[500px] w-[400px] border border-borderColor rounded-lg bg-primary p-8 animate-animfadeAbove"
       >
         <div className="flex flex-col gap-3">

@@ -14,8 +14,13 @@ const config: Config = {
         animfadeLeftSide: "fadeLeftSide 1.5s ease-in-out",
         animfadeRightSide: "fadeRightSide 1.5s ease-in-out",
         animFullHeight: "fullHeight 1.5s ease-in-out",
+        wiggle: "wiggle 1s ease-in-out infinite",
       },
       keyframes: {
+        wiggle: {
+          "0%, 100%": { transform: "rotate(-3deg)" },
+          "50%": { transform: "rotate(3deg)" },
+        },
         fadeAbove: {
           "100%": { transform: "translateY(0px)", opacity: "1" },
           "0%": {
