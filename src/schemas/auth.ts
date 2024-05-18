@@ -1,4 +1,8 @@
-import { SignInFormData, SignUpFormData } from "@/interfaces/form";
+import {
+  ForgotPassFormData,
+  SignInFormData,
+  SignUpFormData,
+} from "@/interfaces/form";
 import { ZodType, z } from "zod";
 
 const passRegExp =
@@ -34,3 +38,7 @@ export const signUpSchema: ZodType<SignUpFormData> = z
     message: "Passwords do not match",
     path: ["cfrmPassword"],
   });
+
+export const ForgotPassSchema: ZodType<ForgotPassFormData> = z.object({
+  email: z.string().min(1, { message: "Please provide an email" }).email(),
+});

@@ -12,6 +12,10 @@ export interface SignUpFormData {
   password: string;
 }
 
+export interface ForgotPassFormData {
+  email: string;
+}
+
 export interface CallbacksInterface {
   onLoading: () => void;
   onSuccess: (result: string) => void;
