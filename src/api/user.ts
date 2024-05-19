@@ -45,7 +45,7 @@ export const logOut = async (
 
     const error = new Error(errorObj.message);
     throw error;
-  } else {
-    onSuccess("Success");
   }
+
+  return onSuccess("Success");
 };

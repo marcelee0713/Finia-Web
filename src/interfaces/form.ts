@@ -16,6 +16,11 @@ export interface ForgotPassFormData {
   email: string;
 }
 
+export interface ResetPassFormData {
+  password: string;
+  cfrmPassword: string;
+}
+
 export interface CallbacksInterface {
   onLoading: () => void;
   onSuccess: (result: string) => void;

@@ -3,6 +3,7 @@ import { ErrorResponse } from "@/interfaces/error";
 import {
   CallbacksInterface,
   ForgotPassFormData,
+  ResetPassFormData,
   SignInFormData,
   SignUpFormData,
 } from "@/interfaces/form";
@@ -31,6 +32,16 @@ export const signIn = async (
   });
 
   if (!res.ok) {
+    if (res.status === 429) {
+      const err: ErrorResponse = {
+        message: "Too much request, try again later!",
+        status: "429",
+        type: "Too much request already",
+      };
+      onError(err);
+      return;
+    }
+
     const err: ErrorResponse = await res.json();
     onError(err);
     return;
@@ -66,6 +77,16 @@ export const signUp = async (
   });
 
   if (!res.ok) {
+    if (res.status === 429) {
+      const err: ErrorResponse = {
+        message: "Too much request, try again later!",
+        status: "429",
+        type: "Too much request already",
+      };
+      onError(err);
+      return;
+    }
+
     const err: ErrorResponse = await res.json();
     onError(err);
     return;
@@ -152,6 +173,48 @@ export const resetPasswordRequest = async (
       email: data.email,
     }),
     method: "POST",
+  });
+
+  if (!res.ok) {
+    if (res.status === 429) {
+      const err: ErrorResponse = {
+        message: "Too much request, try again later!",
+        status: "429",
+        type: "Too much request already",
+      };
+      onError(err);
+      return;
+    }
+
+    const err: ErrorResponse = await res.json();
+    onError(err);
+    return;
+  }
+
+  return onSuccess(
+    "We have sent you a link for password reset to your email address."
+  );
+};
+
+export const resetPassword = async (
+  data: ResetPassFormData,
+  token: string,
+  { onLoading, onError, onSuccess }: CallbacksInterface
+): Promise<void> => {
+  onLoading();
+
+  const res = await fetch(`${apiUrl}/users/reset-password`, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+    mode: "cors",
+    credentials: "include",
+    body: JSON.stringify({
+      password: data.password,
+      token: token,
+      removeSessions: "NO",
+    }),
+    method: "PATCH",
   });
 
   if (!res.ok) {

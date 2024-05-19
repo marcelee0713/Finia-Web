@@ -1,28 +1,30 @@
 "use client";
-
-import { InputText, InputTextPassword } from "@/components/auth/input_texts";
-import bg_1 from "../../../../public/backgrounds/bg_1.svg";
-import { ImageBackground } from "@/components/img_bg";
-import Link from "next/link";
 import React, { useState } from "react";
-import { CallbacksInterface, SignUpFormData } from "@/interfaces/form";
-import { signUpSchema } from "@/schemas/auth";
+import bg_2 from "../../../../public/backgrounds/bg_2.svg";
+import { ImageBackground } from "@/components/img_bg";
+import { CallbacksInterface, ResetPassFormData } from "@/interfaces/form";
+import { ForgotPassSchema, ResetPassSchema } from "@/schemas/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { signUp } from "@/api/auth";
-import { useRouter } from "next/navigation";
+import { useSearchParams } from "next/navigation";
+import { resetPassword } from "@/api/auth";
+import { TokenMissing } from "@/components/auth/verify-email/states";
+import Link from "next/link";
+import { ResetPasswordInput } from "@/components/auth/reset-password/inputs";
 
-const SignUp = () => {
+const ResetPassword = () => {
   const [visible, setVisible] = useState(false);
 
   const [cfrmVisible, setCfrmVisible] = useState(false);
 
   const [processing, setProcessing] = useState(false);
 
-  const router = useRouter();
+  const params = useSearchParams();
 
-  const states: CallbacksInterface = {
+  const token = params.get("token");
+
+  const callback: CallbacksInterface = {
     onLoading() {
       setProcessing(true);
       toast.dismiss();
@@ -36,12 +38,7 @@ const SignUp = () => {
     onSuccess(result) {
       setProcessing(false);
       toast.dismiss();
-
-      const split = result.split(":");
-      const username = split[0];
-      const email = split[1];
-
-      router.replace(`/greet?username=${username}&email=${email}`);
+      toast.success(result);
     },
   };
 
@@ -49,61 +46,49 @@ const SignUp = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<SignUpFormData>({
-    resolver: zodResolver(signUpSchema),
+  } = useForm<ResetPassFormData>({
+    resolver: zodResolver(ResetPassSchema),
   });
+
+  if (!token) {
+    return <TokenMissing />;
+  }
 
   return (
     <main className="flex flex-col h-full w-full p-8 overflow-y-auto items-center justify-center">
-      <ImageBackground image={bg_1} />
+      <ImageBackground image={bg_2} />
+
       <form
-        onSubmit={handleSubmit((data) => signUp(data, states))}
-        className="flex flex-col gap-5 min-h-[600px] max-h-full w-[400px] border border-borderColor rounded-lg bg-primary p-8 animate-animfadeAbove"
+        onSubmit={handleSubmit((data) => resetPassword(data, token, callback))}
+        className="flex flex-col gap-5 min-h-[300px] max-h-full w-[400px] border border-borderColor rounded-lg bg-primary p-8 animate-animfadeAbove"
       >
         <div className="flex flex-col gap-3">
-          <h1 className="font-bold text-secondary text-3xl">Sign up</h1>
+          <h1 className="font-bold text-secondary text-3xl">Reset Password</h1>
 
           <div className="flex gap-1 font-light text-accent text-sm">
-            <span>{"Already have an account?"}</span>
+            <span>{"Remember it now?"}</span>
             <Link href="/sign-in" className="font-bold hover:underline">
               Sign in
             </Link>
           </div>
         </div>
+
         <div className="flex-1 flex flex-col gap-7 w-full">
-          <InputText
-            formType="SIGNUP"
-            errorCatch={errors.username}
-            nameRegister="username"
-            placeholder="username"
-            register={register}
-          />
-
-          <InputText
-            formType="SIGNUP"
-            errorCatch={errors.email}
-            nameRegister="email"
-            placeholder="email"
-            register={register}
-          />
-
-          <InputTextPassword
+          <ResetPasswordInput
+            errorCatch={errors.password}
+            nameRegister="password"
             visiblePassword={visible}
             passwordSetVisible={setVisible}
-            errorCatch={errors.password}
-            formType="SIGNUP"
-            nameRegister="password"
-            placeholder="password"
+            placeholder="new password"
             register={register}
           />
 
-          <InputTextPassword
+          <ResetPasswordInput
+            errorCatch={errors.cfrmPassword}
+            nameRegister="cfrmPassword"
             visiblePassword={cfrmVisible}
             passwordSetVisible={setCfrmVisible}
-            errorCatch={errors.cfrmPassword}
-            formType="SIGNUP"
-            nameRegister="cfrmPassword"
-            placeholder="confirm password"
+            placeholder="re-enter new password"
             register={register}
           />
 
@@ -114,13 +99,13 @@ const SignUp = () => {
               processing ? "opacity-50 cursor-not-allowed" : ""
             }`}
           >
-            Create an account
+            Submit
           </button>
 
           <hr className="border-borderColor" />
 
           <div className="text-xs text-accent text-center">
-            By creating an account you agree to our{" "}
+            By resetting your password you agree to our{" "}
             <Link
               href={"/about#privacy-policy"}
               className="font-bold hover:underline"
@@ -134,4 +119,4 @@ const SignUp = () => {
   );
 };
 
-export default SignUp;
+export default ResetPassword;
