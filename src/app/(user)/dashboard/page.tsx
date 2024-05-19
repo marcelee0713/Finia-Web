@@ -1,16 +1,27 @@
-"use client";
-import { logOut } from "@/api/user";
-import apiUrl from "@/config";
-import { CallbacksInterface } from "@/interfaces/form";
-import { useRouter } from "next/navigation";
-import React from "react";
-
 const Dashboard = () => {
-  const router = useRouter();
-
+  // TODO: Finish the Dashboard
   return (
-    <main className="flex-1 flex flex-col h-full w-full p-8 overflow-y-auto items-center justify-center">
-      Dashboard
+    <main className="flex-1 flex p-10 overflow-y-auto">
+      <div className="flex h-full w-full gap-5 mx-auto container">
+        <div className="flex-grow-[3] flex flex-col gap-5">
+          <div className="flex-1 flex gap-5 ">
+            <div className="flex-1 flex flex-col gap-5">
+              <div className="flex-1 flex flex-col border border-borderColor rounded-lg"></div>
+              <div className="flex-1 flex flex-col border border-borderColor rounded-lg"></div>
+            </div>
+            <div className="flex-1 flex flex-col border border-borderColor rounded-lg"></div>
+            <div className="flex-1 flex flex-col gap-5">
+              <div className="flex-1 flex flex-col border border-borderColor rounded-lg"></div>
+              <div className="flex-1 flex flex-col border border-borderColor rounded-lg"></div>
+            </div>
+          </div>
+          <div className="flex-grow-[2] flex gap-5">
+            <div className="flex-1 flex flex-col border border-borderColor rounded-lg"></div>
+            <div className="flex-1 flex flex-col border border-borderColor rounded-lg"></div>
+          </div>
+        </div>
+        <div className="flex-1 flex flex-col border border-borderColor rounded-lg"></div>
+      </div>
     </main>
   );
 };

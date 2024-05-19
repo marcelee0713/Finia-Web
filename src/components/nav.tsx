@@ -34,47 +34,49 @@ export const NavBar = () => {
   };
 
   return (
-    <nav className="flex py-5 px-10 items-center justify-between h-[60px] border-b border-borderColor text-secondary animate-animfadeAbove">
-      <div className="flex gap-5">
-        <div className="font-bold text-2xl">Finia</div>
+    <nav className="flex py-5 px-10 h-[60px] border-b border-borderColor text-secondary animate-animfadeAbove">
+      <div className="flex items-center justify-between h-full w-full container mx-auto">
+        <div className="flex gap-5">
+          <div className="font-bold text-2xl">Finia</div>
 
-        <div className="flex gap-2 text-sm">
-          <Link
-            href={"/profile"}
-            className={`nav-item ${
-              pathname === "/profile" ? "active-nav" : ""
-            }`}
-          >
-            profile
-          </Link>
+          <div className="flex gap-2 text-sm">
+            <Link
+              href={"/profile"}
+              className={`nav-item ${
+                pathname === "/profile" ? "active-nav" : ""
+              }`}
+            >
+              profile
+            </Link>
 
-          <Link
-            href={"/dashboard"}
-            className={`nav-item ${
-              pathname === "/dashboard" ? "active-nav" : ""
-            }`}
-          >
-            dashboard
-          </Link>
+            <Link
+              href={"/dashboard"}
+              className={`nav-item ${
+                pathname === "/dashboard" ? "active-nav" : ""
+              }`}
+            >
+              dashboard
+            </Link>
 
-          <Link
-            href={"/transactions"}
-            className={`nav-item ${
-              pathname === "/transactions" ? "active-nav" : ""
-            }`}
-          >
-            transactions
-          </Link>
+            <Link
+              href={"/transactions"}
+              className={`nav-item ${
+                pathname === "/transactions" ? "active-nav" : ""
+              }`}
+            >
+              transactions
+            </Link>
+          </div>
         </div>
-      </div>
 
-      <button
-        disabled={processing}
-        onClick={async () => logOut(`${apiUrl}/users/logout`, cb)}
-        className="text-secondary text-sm font-light cursor-pointer"
-      >
-        Log out
-      </button>
+        <button
+          disabled={processing}
+          onClick={async () => logOut(`${apiUrl}/users/logout`, cb)}
+          className="text-secondary text-sm font-light cursor-pointer"
+        >
+          Log out
+        </button>
+      </div>
     </nav>
   );
 };
