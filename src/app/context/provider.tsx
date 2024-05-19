@@ -29,6 +29,10 @@ export const Provider: React.FC<props> = ({ children }) => {
   useSWR<UserData>(`${apiUrl}/users`, getUserData, {
     onSuccess(data) {
       setUser(data);
+
+      if (AUTH_PAGES.includes(pathname) && pathname !== "/about") {
+        router.replace("/dashboard");
+      }
     },
     onError() {
       if (
