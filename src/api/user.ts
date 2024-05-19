@@ -39,12 +39,18 @@ export const logOut = async (
   });
 
   if (!res.ok) {
-    const errorObj: ErrorResponse = await res.json();
+    if (res.status === 429) {
+      const err: ErrorResponse = {
+        message: "Too much request, try again later!",
+        status: "429",
+        type: "Too much request already",
+      };
+      onError(err);
+      return;
+    }
 
-    onError(errorObj);
-
-    const error = new Error(errorObj.message);
-    throw error;
+    const err: ErrorResponse = await res.json();
+    return onError(err);
   }
 
   return onSuccess("Success");

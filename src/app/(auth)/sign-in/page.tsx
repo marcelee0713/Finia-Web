@@ -12,6 +12,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { emailVerificationRequest, signIn } from "@/api/auth";
 import { useRouter } from "next/navigation";
+import { Metadata } from "next";
 
 const SignIn = () => {
   const [visible, setVisible] = useState(false);
