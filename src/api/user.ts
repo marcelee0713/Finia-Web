@@ -15,8 +15,7 @@ export const getUserData = async (endpoint: string): Promise<UserData> => {
   if (!res.ok) {
     const errorObj: ErrorResponse = await res.json();
 
-    const error = new Error(errorObj.message);
-    throw error;
+    throw errorObj;
   }
 
   const user: UserData = await res.json();

@@ -7,6 +7,7 @@ import { createContext, useState, ReactNode, useContext } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import useSWR from "swr";
 import { AUTH_PAGES } from "@/constants";
+import { ErrorResponse } from "@/interfaces/error";
 
 interface props {
   children: ReactNode;
@@ -34,11 +35,16 @@ export const Provider: React.FC<props> = ({ children }) => {
         router.replace("/dashboard");
       }
     },
-    onError() {
-      if (
-        (!AUTH_PAGES.includes(pathname) && !active) ||
-        (user && pathname === "/about" && !active)
-      ) {
+    onError(err) {
+      const error = err as ErrorResponse;
+
+      const notAuthorized = error.status === "401";
+      const isLoggedIn = !AUTH_PAGES.includes(pathname) && !active;
+      const onUniversalPage = user && pathname === "/about" && !active;
+
+      const condition = (notAuthorized && isLoggedIn) || onUniversalPage;
+
+      if (condition) {
         toast.dismiss();
 
         toast.error("Session expired, please re-login.", {
