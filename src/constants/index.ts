@@ -1,5 +1,64 @@
 import { AboutInfo } from "@/interfaces/about";
 
+import housing from "../../public/icons/expenses-icons/housing.svg";
+import transportation from "../../public/icons/expenses-icons/transportation.svg";
+import food from "../../public/icons/expenses-icons/food.svg";
+import utilities from "../../public/icons/expenses-icons/utilities.svg";
+import healthcare from "../../public/icons/expenses-icons/healthcare.svg";
+import personalCare from "../../public/icons/expenses-icons/personal-care.svg";
+import entertainment from "../../public/icons/expenses-icons/entertainment.svg";
+import debtRepayment from "../../public/icons/expenses-icons/debt-repayment.svg";
+import savings from "../../public/icons/expenses-icons/savings.svg";
+import giftDonations from "../../public/icons/expenses-icons/gifts-donations.svg";
+import education from "../../public/icons/expenses-icons/education.svg";
+import travel from "../../public/icons/expenses-icons/travel.svg";
+import clothing from "../../public/icons/expenses-icons/clothing.svg";
+import misc from "../../public/icons/expenses-icons/misc.svg";
+
+import salary from "../../public/icons/revenue-icons/salary.svg";
+import freelanceContractWork from "../../public/icons/revenue-icons/freelance-contract.svg";
+import businessIncome from "../../public/icons/revenue-icons/business-income.svg";
+import investmentIncome from "../../public/icons/revenue-icons/investment-income.svg";
+import rentalIncome from "../../public/icons/revenue-icons/rental-income.svg";
+import interestDividends from "../../public/icons/revenue-icons/interest-dividends.svg";
+import pension from "../../public/icons/revenue-icons/pension-retirement.svg";
+import giftInheritance from "../../public/icons/revenue-icons/gifts-inheritance.svg";
+import other from "../../public/icons/revenue-icons/other.svg";
+
+type CategoryWithIcon = {
+  name: string;
+  icon: any;
+};
+
+export const EXPENSES_CATEGORIES: CategoryWithIcon[] = [
+  { name: "Housing", icon: housing },
+  { name: "Transportation", icon: transportation },
+  { name: "Food", icon: food },
+  { name: "Utilities", icon: utilities },
+  { name: "Healthcare", icon: healthcare },
+  { name: "Personal Care", icon: personalCare },
+  { name: "Entertainment", icon: entertainment },
+  { name: "Debt Repayment", icon: debtRepayment },
+  { name: "Savings", icon: savings },
+  { name: "Gift/Donations", icon: giftDonations },
+  { name: "Education", icon: education },
+  { name: "Travel", icon: travel },
+  { name: "Clothing", icon: clothing },
+  { name: "Misc", icon: misc },
+];
+
+export const REVENUE_CATEGORIES: CategoryWithIcon[] = [
+  { name: "Salary", icon: salary },
+  { name: "Freelance/Contract Work", icon: freelanceContractWork },
+  { name: "Business Income", icon: businessIncome },
+  { name: "Investment Income", icon: investmentIncome },
+  { name: "Rental Income", icon: rentalIncome },
+  { name: "Interest/Dividends", icon: interestDividends },
+  { name: "Pension", icon: pension },
+  { name: "Gift/Inheritance", icon: giftInheritance },
+  { name: "Other", icon: other },
+];
+
 export const AUTH_PAGES = [
   "/",
   "/about",

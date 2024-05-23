@@ -6,7 +6,7 @@
   /* For Webkit-based browsers (e.g., Chrome, Safari) */
   &::-webkit-scrollbar {
     background-color: #001220; /* Thumb color */
-    width: 8px; /* Adjust the width as needed */
+    width: 5px; /* Adjust the width as needed */
   }
 
   &::-webkit-scrollbar-track {

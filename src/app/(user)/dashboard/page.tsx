@@ -1,47 +1,18 @@
-import { InfoBox } from "@/components/universal/info_box";
-import revenue from "../../../../public/icons/revenue-icons/business-income.svg";
+import { AnalyzedContainer } from "@/components/dashboard/analyzed_container";
+import { RecentTransactions } from "@/components/dashboard/recent_transactions";
+import { Footer } from "@/components/footer";
 
 const Dashboard = () => {
   return (
-    <main className="flex-1 flex p-10 overflow-y-auto">
-      <div className="flex h-full w-full gap-5 mx-auto container">
-        {/* Container */}
-        <div className="flex-grow-[3] flex flex-col gap-5">
-          <div className="flex-1 flex gap-5 ">
-            <div className="flex-1 flex flex-col gap-5">
-              <InfoBox
-                title="Total expenses all time"
-                info="PHP 15,000.00"
-                icon={revenue}
-                orientation="row"
-              />
-              <InfoBox
-                title="Total expenses all time"
-                info="PHP 15,000.00"
-                icon={revenue}
-                orientation="row"
-              />
-            </div>
-            <InfoBox
-              title="Total expenses all time"
-              info="PHP 15,000.00"
-              icon={revenue}
-              orientation="column"
-            />
-            <div className="flex-1 flex flex-col gap-5">
-              <div className="flex-1 flex flex-col border border-borderColor rounded-lg"></div>
-              <div className="flex-1 flex flex-col border border-borderColor rounded-lg"></div>
-            </div>
-          </div>
-          <div className="flex-grow-[2] flex gap-5">
-            <div className="flex-1 flex flex-col border border-borderColor rounded-lg"></div>
-            <div className="flex-1 flex flex-col border border-borderColor rounded-lg"></div>
-          </div>
+    <>
+      <main className="flex-1 justify-between flex flex-col px-10 pt-10 overflow-y-auto stylish-y-scroll">
+        <div className="flex-1 flex h-full w-full gap-5 mx-auto container">
+          <AnalyzedContainer />
+          <RecentTransactions />
         </div>
-        {/* Recent Transaction Container */}
-        <div className="flex-1 flex flex-col border border-borderColor rounded-lg"></div>
-      </div>
-    </main>
+      </main>
+      <Footer isContainer={true} addPadding={true} removePaddingXAxis={true} />
+    </>
   );
 };
 

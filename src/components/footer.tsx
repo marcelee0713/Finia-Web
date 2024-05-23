@@ -5,13 +5,23 @@ interface props {
   isAbsolute?: boolean;
   addTwoColors?: boolean;
   addPadding?: boolean;
+  isContainer?: boolean;
+  removePaddingXAxis?: boolean;
 }
 
-export const Footer = ({ addPadding, addTwoColors, isAbsolute }: props) => {
+export const Footer = ({
+  addPadding,
+  addTwoColors,
+  isAbsolute,
+  isContainer,
+  removePaddingXAxis,
+}: props) => {
   const style = `flex ${
     isAbsolute ? "absolute bottom-0 w-full" : ""
   } justify-between text-sm font-light text-secondary ${
     addPadding ? "py-4 px-8" : ""
+  }  ${isContainer ? "container mx-auto" : ""} ${
+    removePaddingXAxis ? "px-0" : ""
   }`;
 
   return (
