@@ -12,7 +12,8 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { emailVerificationRequest, signIn } from "@/api/auth";
 import { useRouter } from "next/navigation";
-import { Metadata } from "next";
+import { mutate } from "swr";
+import apiUrl from "@/config";
 
 const SignIn = () => {
   const [visible, setVisible] = useState(false);
@@ -69,6 +70,7 @@ const SignIn = () => {
       setProcessing(false);
       toast.dismiss();
       router.replace("/dashboard");
+      mutate(`${apiUrl}/users`);
     },
   };
 

@@ -1,6 +1,7 @@
 "use client";
 
 import { logOut } from "@/api/user";
+import { useGlobalContext } from "@/app/context/provider";
 import apiUrl from "@/config";
 import { CallbacksInterface } from "@/interfaces/form";
 import Link from "next/link";
@@ -9,6 +10,7 @@ import React, { useState } from "react";
 import { toast } from "sonner";
 
 export const NavBar = () => {
+  const { setUser } = useGlobalContext();
   const [processing, setProcessing] = useState(false);
 
   const pathname = usePathname();
@@ -30,6 +32,7 @@ export const NavBar = () => {
       setProcessing(false);
       toast.dismiss();
       router.replace("/sign-in");
+      setUser(null);
     },
   };
 
@@ -71,7 +74,7 @@ export const NavBar = () => {
 
         <button
           disabled={processing}
-          onClick={async () => logOut(`${apiUrl}/users/logout`, cb)}
+          onClick={async () => await logOut(`${apiUrl}/users/logout`, cb)}
           className="text-secondary text-sm font-light cursor-pointer"
         >
           Log out

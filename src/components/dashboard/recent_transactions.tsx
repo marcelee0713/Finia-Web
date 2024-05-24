@@ -19,7 +19,7 @@ export const RecentTransactions = () => {
 
   return (
     data && (
-      <div className="flex-1 flex flex-col gap-2 border border-borderColor rounded-lg px-4 py-3">
+      <div className="h-full min-w-[350px] flex flex-col gap-2 border border-borderColor rounded-lg px-4 py-3">
         <div className="flex justify-between items-center text-accent">
           <div className="font-bold">Recent Transactions</div>
           <Link href={"/transactions"} className="text-sm hover:underline">

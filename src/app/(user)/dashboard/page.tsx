@@ -16,4 +16,8 @@ const Dashboard = () => {
   );
 };
 
+//TODO: Handle States in every single request, for loading, error, and no content states!
+//TODO: Add a way to switch up from EXPENSES to REVENUE,
+//TODO: Also add the media queries in this!
+
 export default Dashboard;

@@ -10,7 +10,7 @@ import {
 
 export const GetActivityInfo = async (
   req: GetActivityRequest
-): Promise<ActivityInfo> => {
+): Promise<ActivityInfo | undefined> => {
   const res = await fetch(`${apiUrl}/transactions/`, {
     headers: {
       "Content-Type": "application/json",
@@ -35,6 +35,8 @@ export const GetActivityInfo = async (
     const err: ErrorResponse = await res.json();
     throw err;
   }
+
+  if (res.status === 204) return undefined;
 
   const data: ActivityInfo = await res.json();
 
