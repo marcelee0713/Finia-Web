@@ -3,8 +3,8 @@ import { InfoBox } from "../universal/info_box";
 import allTime from "../../../public/icons/base/clock.svg";
 import calendar from "../../../public/icons/base/calendar.svg";
 import netIncome from "../../../public/icons/base/net-income.svg";
-import { MonthWiseBarChart } from "./charts/bar_chart";
-import { CategoryBarChart } from "./charts/pie_chart";
+import { MonthWiseLineChart } from "./charts/month_wise_line_chart";
+import { CategoryBarChart } from "./charts/category_bar_chart";
 
 export const AnalyzedContainer = () => {
   return (
@@ -33,7 +33,7 @@ export const AnalyzedContainer = () => {
         </div>
       </div>
       <div className="flex-grow-[2] flex gap-5">
-        <MonthWiseBarChart useCase="MONTHLY_EXPENSES_GRAPH" />
+        <MonthWiseLineChart useCase="MONTHLY_EXPENSES_GRAPH" />
         <CategoryBarChart useCase="EXPENSES_BY_CATEGORY_GRAPH" />
       </div>
     </div>

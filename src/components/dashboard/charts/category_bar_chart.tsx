@@ -3,7 +3,7 @@ import { GetCategoryData } from "@/api/transaction/activity_info";
 import { useGlobalContext } from "@/app/context/provider";
 import { CategoryData } from "@/interfaces/transaction";
 import { TransactionUseCases } from "@/types/transaction";
-import React from "react";
+import React, { useState } from "react";
 import {
   Bar,
   BarChart,
@@ -14,22 +14,36 @@ import {
 } from "recharts";
 import useSWR from "swr";
 import { CustomTooltip } from "./custom_tooltip";
+import { ChartsError } from "./states/error";
+import { ChartsLoading } from "./states/loading";
+import { EmptyCharts } from "./states/no-content";
 
 interface props {
   useCase: TransactionUseCases;
 }
 
 export const CategoryBarChart = ({ useCase }: props) => {
+  const [isLoading, setIsLoading] = useState(true);
   const { user } = useGlobalContext();
 
-  const {
-    data: category,
-    isLoading,
-    error,
-  } = useSWR<CategoryData>(
+  const { data: category, error } = useSWR<CategoryData>(
     user ? [{ userId: user.uid, useCase: useCase }] : null,
-    ([body]) => GetCategoryData(body)
+    ([body]) => GetCategoryData(body),
+    {
+      onSuccess() {
+        setIsLoading(false);
+      },
+      onError() {
+        setIsLoading(false);
+      },
+    }
   );
+
+  if (isLoading) return <ChartsLoading />;
+
+  if (error) return <ChartsError error={error} />;
+
+  if (category && category.data.length === 0) return <EmptyCharts />;
 
   return (
     category && (

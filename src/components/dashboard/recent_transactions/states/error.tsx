@@ -1,22 +1,18 @@
 import { ErrorResponse } from "@/interfaces/error";
-import React from "react";
 import { BiSolidErrorCircle } from "react-icons/bi";
+import React from "react";
 
 interface props {
   error: any;
-  containerStyle: string;
-  textStyle: string;
 }
 
-export const ErrorInfoBox = ({ error, containerStyle, textStyle }: props) => {
+export const ErrorRecentTransactions = ({ error }: props) => {
   const err: ErrorResponse = error;
-  return (
-    <div
-      className={`flex-1 flex ${containerStyle} items-center border border-borderColor rounded-lg gap-5 p-5`}
-    >
-      <BiSolidErrorCircle size={65} className="text-secondary" />
 
-      <div className={`flex flex-col  ${textStyle}`}>
+  return (
+    <div className="flex-1 flex flex-col justify-center items-center gap-2 overflow-y-auto stylish-y-scroll">
+      <BiSolidErrorCircle size={65} className="text-secondary" />
+      <div className={`flex flex-col gap-1 text-center`}>
         <div className="font-light text-sm text-accent">Error</div>
         <div className="font-bold text-secondary text-sm">{err.message}</div>
       </div>

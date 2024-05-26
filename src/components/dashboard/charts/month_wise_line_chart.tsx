@@ -3,7 +3,7 @@ import { GetMonthWiseData } from "@/api/transaction/activity_info";
 import { useGlobalContext } from "@/app/context/provider";
 import { MonthlyData } from "@/interfaces/transaction";
 import { TransactionUseCases } from "@/types/transaction";
-import React from "react";
+import React, { useState } from "react";
 import {
   Line,
   LineChart,
@@ -14,18 +14,36 @@ import {
 } from "recharts";
 import useSWR from "swr";
 import { CustomTooltip } from "./custom_tooltip";
+import { ChartsLoading } from "./states/loading";
+import { ChartsError } from "./states/error";
+import { EmptyCharts } from "./states/no-content";
 
 interface props {
   useCase: TransactionUseCases;
 }
 
-export const MonthWiseBarChart = ({ useCase }: props) => {
+export const MonthWiseLineChart = ({ useCase }: props) => {
+  const [isLoading, setIsLoading] = useState(true);
   const { user } = useGlobalContext();
 
-  const { data, isLoading, error } = useSWR<MonthlyData>(
+  const { data, error } = useSWR<MonthlyData>(
     user ? [{ userId: user.uid, useCase: useCase }] : null,
-    ([body]) => GetMonthWiseData(body)
+    ([body]) => GetMonthWiseData(body),
+    {
+      onSuccess() {
+        setIsLoading(false);
+      },
+      onError() {
+        setIsLoading(false);
+      },
+    }
   );
+
+  if (isLoading) return <ChartsLoading />;
+
+  if (error) return <ChartsError error={error} />;
+
+  if (data && data.monthlyTransactions.length === 0) return <EmptyCharts />;
 
   return (
     data && (

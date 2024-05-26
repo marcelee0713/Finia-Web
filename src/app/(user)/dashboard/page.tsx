@@ -1,5 +1,5 @@
 import { AnalyzedContainer } from "@/components/dashboard/analyzed_container";
-import { RecentTransactions } from "@/components/dashboard/recent_transactions";
+import { RecentTransactions } from "@/components/dashboard/recent_transactions/recent_transactions";
 import { Footer } from "@/components/footer";
 
 const Dashboard = () => {
@@ -16,7 +16,6 @@ const Dashboard = () => {
   );
 };
 
-//TODO: Handle States in every single request, for loading, error, and no content states!
 //TODO: Add a way to switch up from EXPENSES to REVENUE,
 //TODO: Also add the media queries in this!
 
