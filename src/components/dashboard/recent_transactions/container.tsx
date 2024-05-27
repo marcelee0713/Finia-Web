@@ -14,7 +14,7 @@ export const RecentTransactionsContainer = () => {
   const [isLoading, setIsLoading] = useState(true);
   const { user } = useGlobalContext();
 
-  const { data, error } = useSWR<Transaction[]>(
+  const { data, error } = useSWR<Transaction[] | undefined>(
     user ? [{ userId: user.uid, skip: "0", take: "10" }] : null,
     ([body]) => GetTransactions(body),
     {
@@ -31,7 +31,7 @@ export const RecentTransactionsContainer = () => {
 
   if (error) return <ErrorRecentTransactions error={error} />;
 
-  if (!data) return <EmptyRecentTransactions />;
+  if ((data && data.length === 0) || !data) return <EmptyRecentTransactions />;
 
   return (
     <div className="flex-1 flex flex-col gap-2 overflow-y-auto stylish-y-scroll ">

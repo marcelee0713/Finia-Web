@@ -45,7 +45,7 @@ export const GetActivityInfo = async (
 
 export const GetMonthWiseData = async (
   req: GetActivityRequest
-): Promise<MonthlyData> => {
+): Promise<MonthlyData | undefined> => {
   const res = await fetch(`${apiUrl}/transactions/`, {
     headers: {
       "Content-Type": "application/json",
@@ -70,6 +70,8 @@ export const GetMonthWiseData = async (
     const err: ErrorResponse = await res.json();
     throw err;
   }
+
+  if (res.status === 204) return undefined;
 
   const data: MonthlyData = await res.json();
 
@@ -78,7 +80,7 @@ export const GetMonthWiseData = async (
 
 export const GetCategoryData = async (
   req: GetActivityRequest
-): Promise<CategoryData> => {
+): Promise<CategoryData | undefined> => {
   const res = await fetch(`${apiUrl}/transactions/`, {
     headers: {
       "Content-Type": "application/json",
@@ -103,6 +105,8 @@ export const GetCategoryData = async (
     const err: ErrorResponse = await res.json();
     throw err;
   }
+
+  if (res.status === 204) return undefined;
 
   const data: CategoryDataStr = await res.json();
 

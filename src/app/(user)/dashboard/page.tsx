@@ -16,7 +16,6 @@ const Dashboard = () => {
   );
 };
 
-//TODO: Add a way to switch up from EXPENSES to REVENUE,
 //TODO: Also add the media queries in this!
 
 export default Dashboard;

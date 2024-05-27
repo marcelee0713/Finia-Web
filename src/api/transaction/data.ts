@@ -4,7 +4,7 @@ import { GetActivityRequest, Transaction } from "@/interfaces/transaction";
 
 export const GetTransactions = async (
   req: GetActivityRequest
-): Promise<Transaction[]> => {
+): Promise<Transaction[] | undefined> => {
   const res = await fetch(`${apiUrl}/transactions/`, {
     headers: {
       "Content-Type": "application/json",
@@ -29,6 +29,8 @@ export const GetTransactions = async (
     const err: ErrorResponse = await res.json();
     throw err;
   }
+
+  if (res.status === 204) return undefined;
 
   const data: Transaction[] = await res.json();
 

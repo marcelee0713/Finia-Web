@@ -26,7 +26,7 @@ export const MonthWiseLineChart = ({ useCase }: props) => {
   const [isLoading, setIsLoading] = useState(true);
   const { user } = useGlobalContext();
 
-  const { data, error } = useSWR<MonthlyData>(
+  const { data, error } = useSWR<MonthlyData | undefined>(
     user ? [{ userId: user.uid, useCase: useCase }] : null,
     ([body]) => GetMonthWiseData(body),
     {
@@ -43,7 +43,7 @@ export const MonthWiseLineChart = ({ useCase }: props) => {
 
   if (error) return <ChartsError error={error} />;
 
-  if (data && data.monthlyTransactions.length === 0) return <EmptyCharts />;
+  if (!data) return <EmptyCharts />;
 
   return (
     data && (

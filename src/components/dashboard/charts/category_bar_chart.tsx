@@ -26,7 +26,7 @@ export const CategoryBarChart = ({ useCase }: props) => {
   const [isLoading, setIsLoading] = useState(true);
   const { user } = useGlobalContext();
 
-  const { data: category, error } = useSWR<CategoryData>(
+  const { data: category, error } = useSWR<CategoryData | undefined>(
     user ? [{ userId: user.uid, useCase: useCase }] : null,
     ([body]) => GetCategoryData(body),
     {
@@ -43,7 +43,7 @@ export const CategoryBarChart = ({ useCase }: props) => {
 
   if (error) return <ChartsError error={error} />;
 
-  if (category && category.data.length === 0) return <EmptyCharts />;
+  if (!category) return <EmptyCharts />;
 
   return (
     category && (
