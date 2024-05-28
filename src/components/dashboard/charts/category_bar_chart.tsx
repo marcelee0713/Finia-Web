@@ -48,7 +48,7 @@ export const CategoryBarChart = ({ useCase, desc }: props) => {
 
   return (
     category && (
-      <div className="h-[300px] xl:flex-1 flex flex-col gap-2 border border-borderColor rounded-lg p-5">
+      <div className="h-[300px] lg:h-auto lg:flex-1 flex flex-col gap-2 border border-borderColor rounded-lg p-5">
         <div className="text-sm text-accent font-light">{desc}</div>
         <ResponsiveContainer className="flex-1 font-light text-sm">
           <BarChart data={category.data}>
