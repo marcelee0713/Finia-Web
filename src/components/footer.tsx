@@ -19,13 +19,17 @@ export const Footer = ({
   const style = `flex ${
     isAbsolute ? "absolute bottom-0 w-full" : ""
   } justify-between text-sm font-light text-secondary ${
-    addPadding ? "py-4 px-8" : ""
+    addPadding ? "px-4 pb-4 lg:py-4 lg:px-8" : ""
   }  ${isContainer ? "container mx-auto" : ""} ${
     removePaddingXAxis ? "px-0" : ""
   }`;
 
   return (
-    <footer className={style}>
+    <footer
+      className={
+        style + " flex-col items-center justify-center text-center lg:flex-row"
+      }
+    >
       <div
         className={`animate-animfadeLeftSide flex gap-2 ${
           addTwoColors ? "text-primary" : "text-secondary"

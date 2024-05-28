@@ -5,13 +5,26 @@ import { Footer } from "@/components/footer";
 const Dashboard = () => {
   return (
     <>
-      <main className="flex-1 justify-between flex flex-col px-10 pt-10 overflow-y-auto stylish-y-scroll">
-        <div className="flex-1 flex h-full w-full gap-5 mx-auto container">
+      <main className="flex-1 justify-between flex flex-col px-5 py-4 lg:px-10 lg:pt-10 overflow-y-auto stylish-y-scroll">
+        <div className="flex-1 flex flex-col xl:flex-row h-full w-full gap-5 mx-auto container">
           <AnalyzedContainer />
           <RecentTransactions />
+          <div className="lg:hidden">
+            <Footer
+              isContainer={true}
+              addPadding={true}
+              removePaddingXAxis={true}
+            />
+          </div>
         </div>
       </main>
-      <Footer isContainer={true} addPadding={true} removePaddingXAxis={true} />
+      <div className="hidden lg:block">
+        <Footer
+          isContainer={true}
+          addPadding={true}
+          removePaddingXAxis={true}
+        />
+      </div>
     </>
   );
 };

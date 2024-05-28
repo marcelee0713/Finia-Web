@@ -29,7 +29,7 @@ export const AnalyzedContainer = () => {
         </button>
       </div>
 
-      <div className="flex-1 flex gap-5 ">
+      <div className="flex-1 flex gap-5 flex-col lg:flex-row">
         <div className="flex-1 flex flex-col gap-5">
           <InfoBox
             orientation="row"
@@ -60,8 +60,13 @@ export const AnalyzedContainer = () => {
           <InfoBox orientation="row" useCase="MOST_EARNED_INFO" />
         </div>
       </div>
-      <div className="flex-grow-[2] flex gap-5">
+      <div className="flex-grow-[2] flex gap-5 flex-col xl:flex-row">
         <MonthWiseLineChart
+          desc={
+            mode === "EXPENSES"
+              ? "Expenses for the last 12 months"
+              : "Revenue for the last 12 months"
+          }
           useCase={
             mode === "EXPENSES"
               ? "MONTHLY_EXPENSES_GRAPH"
@@ -69,6 +74,11 @@ export const AnalyzedContainer = () => {
           }
         />
         <CategoryBarChart
+          desc={
+            mode === "EXPENSES"
+              ? "Expenses Category Breakdown"
+              : "Revenue Category Breakdown"
+          }
           useCase={
             mode === "EXPENSES"
               ? "EXPENSES_BY_CATEGORY_GRAPH"

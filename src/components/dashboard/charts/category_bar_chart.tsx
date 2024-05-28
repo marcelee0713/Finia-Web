@@ -20,9 +20,10 @@ import { EmptyCharts } from "./states/no-content";
 
 interface props {
   useCase: TransactionUseCases;
+  desc: string;
 }
 
-export const CategoryBarChart = ({ useCase }: props) => {
+export const CategoryBarChart = ({ useCase, desc }: props) => {
   const [isLoading, setIsLoading] = useState(true);
   const { user } = useGlobalContext();
 
@@ -47,10 +48,8 @@ export const CategoryBarChart = ({ useCase }: props) => {
 
   return (
     category && (
-      <div className="flex-1 flex flex-col gap-2 border border-borderColor rounded-lg p-5">
-        <div className="text-sm text-accent font-light">
-          Expenses Category Breakdown
-        </div>
+      <div className="h-[300px] xl:flex-1 flex flex-col gap-2 border border-borderColor rounded-lg p-5">
+        <div className="text-sm text-accent font-light">{desc}</div>
         <ResponsiveContainer className="flex-1 font-light text-sm">
           <BarChart data={category.data}>
             <XAxis dataKey="categoryName" stroke="#F7DC2A" />
