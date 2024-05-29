@@ -4,7 +4,7 @@ import Link from "next/link";
 
 const About = () => {
   return (
-    <main className="flex flex-col h-full w-full p-8 overflow-y-auto stylish-y-scroll">
+    <main className="flex flex-col h-full w-full lg:p-8 overflow-y-auto stylish-y-scroll p-2">
       <Link
         href={"/"}
         className="self-end text-accent font-light animate-animfadeRightSide"
