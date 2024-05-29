@@ -24,23 +24,18 @@ interface props {
 }
 
 export const CategoryBarChart = ({ useCase, desc }: props) => {
-  const [isLoading, setIsLoading] = useState(true);
   const { user } = useGlobalContext();
 
-  const { data: category, error } = useSWR<CategoryData | undefined>(
+  const {
+    data: category,
+    error,
+    isLoading,
+  } = useSWR<CategoryData | undefined>(
     user ? [{ userId: user.uid, useCase: useCase }] : null,
-    ([body]) => GetCategoryData(body),
-    {
-      onSuccess() {
-        setIsLoading(false);
-      },
-      onError() {
-        setIsLoading(false);
-      },
-    }
+    ([body]) => GetCategoryData(body)
   );
 
-  if (isLoading) return <ChartsLoading />;
+  if (!user || isLoading) return <ChartsLoading />;
 
   if (error) return <ChartsError error={error} />;
 

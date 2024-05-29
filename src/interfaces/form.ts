@@ -21,6 +21,12 @@ export interface ResetPassFormData {
   cfrmPassword: string;
 }
 
+export interface ChangePasswordFormData {
+  currentPassword: string;
+  password: string;
+  cfrmPassword: string;
+}
+
 export interface CallbacksInterface {
   onLoading: () => void;
   onSuccess: (result: string) => void;

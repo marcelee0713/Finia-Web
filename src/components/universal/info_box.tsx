@@ -17,28 +17,20 @@ interface props {
   useCase: TransactionUseCases;
   icon?: any;
   title?: string;
+  importedData?: ActivityInfo;
 }
 
 export const InfoBox = ({ orientation, icon, useCase, title }: props) => {
   const { user } = useGlobalContext();
 
-  const [isLoading, setIsLoading] = useState(true);
-
-  const containerStyle = orientation === "row" ? "" : "flex-col justify-center";
+  const containerStyle =
+    orientation === "row" ? "" : "flex-col justify-center ";
 
   const textStyle = orientation === "row" ? "" : "text-center";
 
-  const { error, data } = useSWR<ActivityInfo | undefined>(
+  const { error, data, isLoading } = useSWR<ActivityInfo | undefined>(
     user ? [{ userId: user.uid, useCase: useCase }] : null,
-    ([body]) => GetActivityInfo(body),
-    {
-      onSuccess() {
-        setIsLoading(false);
-      },
-      onError() {
-        setIsLoading(false);
-      },
-    }
+    ([body]) => GetActivityInfo(body)
   );
 
   if (error) {
@@ -51,7 +43,7 @@ export const InfoBox = ({ orientation, icon, useCase, title }: props) => {
     );
   }
 
-  if (isLoading) {
+  if (!user || isLoading) {
     return (
       <LoadingInfoBox containerStyle={containerStyle} textStyle={textStyle} />
     );

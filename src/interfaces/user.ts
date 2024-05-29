@@ -9,5 +9,5 @@ export type UserData = {
 
 export interface ProviderData {
   user: UserData;
-  setUser: (data: UserData | null) => void;
+  setUser: (data: UserData) => void;
 }

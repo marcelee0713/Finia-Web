@@ -21,7 +21,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="h-screen max-w-full scroll-smooth">
-      <body className={`${openSans.className} w-full h-full bg-primary flex`}>
+      <body
+        className={`${openSans.className} w-full h-full bg-primary flex relative`}
+      >
         <Provider>{children}</Provider>
       </body>
     </html>

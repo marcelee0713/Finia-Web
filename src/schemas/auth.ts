@@ -1,4 +1,5 @@
 import {
+  ChangePasswordFormData,
   ForgotPassFormData,
   ResetPassFormData,
   SignInFormData,
@@ -46,6 +47,29 @@ export const ForgotPassSchema: ZodType<ForgotPassFormData> = z.object({
 
 export const ResetPassSchema: ZodType<ResetPassFormData> = z
   .object({
+    password: z
+      .string()
+      .min(1, { message: "Please provide a password" })
+      .min(8, { message: "Password must contain at least 8 character(s)" })
+      .regex(passRegExp, {
+        message: "Invalid password, please follow the format",
+      }),
+    cfrmPassword: z
+      .string()
+      .min(1, { message: "Please provide an input" })
+      .min(5, { message: "This field must contain at least 8 character(s)" })
+      .max(20),
+  })
+  .refine((data) => data.password === data.cfrmPassword, {
+    message: "Passwords do not match",
+    path: ["cfrmPassword"],
+  });
+
+export const ChangePassSchema: ZodType<ChangePasswordFormData> = z
+  .object({
+    currentPassword: z
+      .string()
+      .min(1, { message: "Please provide your current password" }),
     password: z
       .string()
       .min(1, { message: "Please provide a password" })

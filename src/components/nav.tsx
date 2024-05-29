@@ -9,11 +9,13 @@ import { usePathname, useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { toast } from "sonner";
 import { IoMenu } from "react-icons/io5";
+import { mutate } from "swr";
 
 export const NavBar = () => {
   const { setUser } = useGlobalContext();
 
   const [active, setActive] = useState(false);
+
   const [processing, setProcessing] = useState(false);
 
   const pathname = usePathname();
@@ -36,6 +38,7 @@ export const NavBar = () => {
       toast.dismiss();
       router.replace("/sign-in");
       setUser(null);
+      mutate(`${apiUrl}/users/get-password`);
     },
   };
 

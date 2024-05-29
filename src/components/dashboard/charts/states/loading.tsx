@@ -4,7 +4,7 @@ import Image from "next/image";
 
 export const ChartsLoading = () => {
   return (
-    <div className="flex-1 flex flex-col gap-1 border border-borderColor items-center justify-center rounded-lg">
+    <div className="flex-1 flex flex-col gap-1 border border-borderColor items-center justify-center rounded-lg p-5">
       <Image
         alt="A loading icon"
         src={loading}

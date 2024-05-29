@@ -24,23 +24,14 @@ interface props {
 }
 
 export const MonthWiseLineChart = ({ useCase, desc }: props) => {
-  const [isLoading, setIsLoading] = useState(true);
   const { user } = useGlobalContext();
 
-  const { data, error } = useSWR<MonthlyData | undefined>(
+  const { data, error, isLoading } = useSWR<MonthlyData | undefined>(
     user ? [{ userId: user.uid, useCase: useCase }] : null,
-    ([body]) => GetMonthWiseData(body),
-    {
-      onSuccess() {
-        setIsLoading(false);
-      },
-      onError() {
-        setIsLoading(false);
-      },
-    }
+    ([body]) => GetMonthWiseData(body)
   );
 
-  if (isLoading) return <ChartsLoading />;
+  if (!user || isLoading) return <ChartsLoading />;
 
   if (error) return <ChartsError error={error} />;
 

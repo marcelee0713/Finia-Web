@@ -92,6 +92,12 @@ const ResetPassword = () => {
             register={register}
           />
 
+          <div className="text-xs text-secondary text-center">
+            {
+              "Password should be at least 8 character(s), 1 special character, 1 number, and 1 capital letter"
+            }
+          </div>
+
           <button
             type="submit"
             disabled={processing}

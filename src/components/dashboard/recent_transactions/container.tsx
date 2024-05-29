@@ -11,23 +11,14 @@ import { ErrorRecentTransactions } from "./states/error";
 import { EmptyRecentTransactions } from "./states/no-content";
 
 export const RecentTransactionsContainer = () => {
-  const [isLoading, setIsLoading] = useState(true);
   const { user } = useGlobalContext();
 
-  const { data, error } = useSWR<Transaction[] | undefined>(
+  const { data, error, isLoading } = useSWR<Transaction[] | undefined>(
     user ? [{ userId: user.uid, skip: "0", take: "10" }] : null,
-    ([body]) => GetTransactions(body),
-    {
-      onSuccess() {
-        setIsLoading(false);
-      },
-      onError() {
-        setIsLoading(false);
-      },
-    }
+    ([body]) => GetTransactions(body)
   );
 
-  if (isLoading) return <LoadingRecentTransactions />;
+  if (!user || isLoading) return <LoadingRecentTransactions />;
 
   if (error) return <ErrorRecentTransactions error={error} />;
 

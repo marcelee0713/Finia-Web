@@ -4,7 +4,7 @@ import { InputText, InputTextPassword } from "@/components/auth/input_texts";
 import bg_1 from "../../../../public/backgrounds/bg_1.svg";
 import { ImageBackground } from "@/components/img_bg";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { CallbacksInterface, SignUpFormData } from "@/interfaces/form";
 import { signUpSchema } from "@/schemas/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -106,6 +106,12 @@ const SignUp = () => {
             placeholder="confirm password"
             register={register}
           />
+
+          <div className="text-xs text-secondary text-center">
+            {
+              "Password should be at least 8 character(s), 1 special character, 1 number, and 1 capital letter"
+            }
+          </div>
 
           <button
             type="submit"
