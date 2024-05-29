@@ -84,16 +84,16 @@ const SignIn = () => {
   });
 
   return (
-    <main className="flex flex-col h-full w-full p-8 overflow-y-auto items-center justify-center">
+    <main className="flex h-full w-full lg:p-8 overflow-y-auto items-center justify-center p-2">
       <ImageBackground image={bg_1} />
       <form
         onSubmit={handleSubmit((data) => signIn(data, signInCallback))}
-        className="flex flex-col gap-5 h-[500px] w-[400px] border border-borderColor rounded-lg bg-primary p-8 animate-animfadeAbove"
+        className="flex flex-col gap-5 min-h-[500px] max-h-full w-[400px] border border-borderColor rounded-lg bg-primary p-5 py-6 lg:p-8 animate-animfadeAbove"
       >
         <div className="flex flex-col gap-3">
           <h1 className="font-bold text-secondary text-3xl">Sign in</h1>
 
-          <div className="flex gap-1 font-light text-accent text-sm">
+          <div className="flex gap-1 font-light text-accent text-xs lg:text-sm">
             <span>{"Don't have an account?"}</span>
             <Link href="/sign-up" className="font-bold hover:underline">
               Create an account

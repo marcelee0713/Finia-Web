@@ -41,11 +41,11 @@ const ForgotPassword = () => {
   });
 
   return (
-    <main className="flex flex-col h-full w-full p-8 overflow-y-auto items-center justify-center">
+    <main className="flex h-full w-full lg:p-8 overflow-y-auto items-center justify-center p-2">
       <ImageBackground image={bg_2} />
       <form
         onSubmit={handleSubmit((data) => resetPasswordRequest(data, callback))}
-        className="flex flex-col gap-5 min-h-[300px] max-h-full w-[400px] border border-borderColor rounded-lg bg-primary p-8 animate-animfadeAbove"
+        className="flex flex-col gap-5 min-h-[300px] max-h-full w-[400px] border border-borderColor rounded-lg bg-primary p-5 py-6 lg:p-8 animate-animfadeAbove"
       >
         <div className="flex flex-col gap-3">
           <h1 className="font-bold text-secondary text-3xl">

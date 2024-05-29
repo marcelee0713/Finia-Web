@@ -32,7 +32,7 @@ export const Footer = ({
     >
       <div
         className={`animate-animfadeLeftSide flex gap-2 ${
-          addTwoColors ? "text-primary" : "text-secondary"
+          addTwoColors ? "text-secondary lg:text-primary" : "text-secondary"
         }`}
       >
         <Link className="hover:underline" href={"/about"}>
