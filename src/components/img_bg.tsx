@@ -12,6 +12,7 @@ export const ImageBackground = ({ image }: props) => {
       src={image}
       quality={100}
       fill
+      priority
       sizes="100vw"
       style={{
         objectFit: "cover",

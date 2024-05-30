@@ -60,5 +60,6 @@ export const config = {
     "/verify-email",
     "/greet",
     "/dashboard",
+    "/profile",
   ],
 };

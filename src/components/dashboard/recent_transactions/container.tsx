@@ -13,7 +13,7 @@ import { EmptyRecentTransactions } from "./states/no-content";
 export const RecentTransactionsContainer = () => {
   const { user } = useGlobalContext();
 
-  const { data, error, isLoading } = useSWR<Transaction[] | undefined>(
+  const { data, error, isLoading } = useSWR<Transaction[]>(
     user ? [{ userId: user.uid, skip: "0", take: "10" }] : null,
     ([body]) => GetTransactions(body)
   );

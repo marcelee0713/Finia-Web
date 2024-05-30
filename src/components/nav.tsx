@@ -46,7 +46,9 @@ export const NavBar = () => {
     <nav className="flex flex-col px-5 py-4 lg:py-5 lg:px-10 lg:h-[60px] border-b border-borderColor text-secondary animate-animfadeAbove">
       <div className="flex items-center justify-between h-full w-full container mx-auto">
         <div className="flex gap-5">
-          <div className="font-bold text-2xl">Finia</div>
+          <Link href={"/dashboard"} className="font-bold text-2xl">
+            Finia
+          </Link>
 
           <div className="hidden gap-2 text-sm lg:flex">
             <Link

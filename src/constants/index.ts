@@ -30,6 +30,37 @@ type CategoryWithIcon = {
   icon: any;
 };
 
+export const TRANSACTION_TYPES = ["ALL", "EXPENSES", "REVENUE"];
+
+export const EXPENSES_CATEGORIES_ARR = [
+  "Housing",
+  "Transportation",
+  "Food",
+  "Utilities",
+  "Healthcare",
+  "Personal Care",
+  "Entertainment",
+  "Debt Repayment",
+  "Savings",
+  "Gift/Donations",
+  "Education",
+  "Travel",
+  "Clothing",
+  "Misc",
+];
+
+export const REVENUE_CATEGORIES_ARR = [
+  "Salary",
+  "Freelance/Contract Work",
+  "Business Income",
+  "Investment Income",
+  "Rental Income",
+  "Interest/Dividends",
+  "Pension",
+  "Gift/Inheritance",
+  "Other",
+];
+
 export const EXPENSES_CATEGORIES: CategoryWithIcon[] = [
   { name: "Housing", icon: housing },
   { name: "Transportation", icon: transportation },

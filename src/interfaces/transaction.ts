@@ -63,7 +63,7 @@ export interface MonthlyData {
 
 export interface GetActivityRequest {
   userId: string;
-  type?: TransactionTypes;
+  type?: TransactionTypes | string;
   category?: string;
   useCase?: TransactionUseCases;
   skip?: string;
