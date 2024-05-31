@@ -31,7 +31,7 @@ export const RecentTransactionsContainer = () => {
           return (
             <RecentTransactionBox
               key={val.uid}
-              amount={val.amount}
+              amount={val.amount.toString()}
               categoryName={val.categoryName}
               createdAt={val.createdAt}
               type={val.type}

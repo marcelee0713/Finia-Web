@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { GetActivityRequest, Transaction } from "@/interfaces/transaction";
 import { GetTransactions } from "@/api/transaction/data";
 import { useGlobalContext } from "@/app/context/provider";
-import useSWRImmutable from "swr/immutable";
+import useSWR from "swr";
 import {
   EXPENSES_CATEGORIES_ARR,
   REVENUE_CATEGORIES_ARR,
@@ -12,6 +12,8 @@ import {
 } from "@/constants";
 import { TransactionFilters } from "./filters";
 import { Table } from "./table";
+import { formatToTwoDecimalPlaces } from "@/utils/amount_formatter";
+import { toast } from "sonner";
 
 export const TransactionTable = () => {
   const { user } = useGlobalContext();
@@ -28,6 +30,8 @@ export const TransactionTable = () => {
 
   const [type, setType] = useState<string>("ALL");
 
+  const [unFilteredData, setUnFilteredData] = useState<Transaction[]>([]);
+
   const [categoryArr, setCategoryArr] = useState<string[]>(
     type === "ALL"
       ? EXPENSES_CATEGORIES_ARR.concat(REVENUE_CATEGORIES_ARR)
@@ -41,11 +45,78 @@ export const TransactionTable = () => {
   );
 
   const handleMinInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setMinPrice(e.currentTarget.value);
+    let value = e.currentTarget.value;
+    value = formatToTwoDecimalPlaces(value);
+    setMinPrice(value);
+
+    const min = parseFloat(value);
+    const max = parseFloat(maxPrice);
+
+    handleAmountChange(min, max);
   };
 
   const handleMaxInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setMaxPrice(e.currentTarget.value);
+    let value = e.currentTarget.value;
+    value = formatToTwoDecimalPlaces(value);
+    setMaxPrice(value);
+
+    const min = parseFloat(minPrice);
+    const max = parseFloat(value);
+
+    handleAmountChange(min, max);
+  };
+
+  const handleAmountChange = (min: number, max: number) => {
+    if (isNaN(min) && isNaN(max)) {
+      setTimeout(() => mutate(unFilteredData, false), 500);
+      return;
+    }
+
+    if (!isNaN(min) && !isNaN(max)) {
+      console.log("Scenario 1");
+
+      if (min > max) {
+        toast.dismiss();
+        toast.error("Amount range invalid");
+        return;
+      }
+
+      if (max < min) {
+        toast.dismiss();
+        toast.error("Amount range invalid");
+        return;
+      }
+
+      toast.dismiss();
+
+      const newData = unFilteredData.filter(
+        (transaction) => transaction.amount >= min && transaction.amount <= max
+      );
+
+      setTimeout(() => mutate(newData, false), 500);
+    }
+
+    if (!isNaN(min) && isNaN(max)) {
+      console.log("Scenario 2");
+
+      const newData = unFilteredData.filter(
+        (transaction) => transaction.amount >= min
+      );
+
+      setTimeout(() => mutate(newData, false), 500);
+    }
+
+    if (!isNaN(max) && isNaN(min)) {
+      console.log("Scenario 3");
+
+      const newData = unFilteredData.filter(
+        (transaction) => transaction.amount <= max
+      );
+
+      console.table(newData);
+
+      setTimeout(() => mutate(newData, false), 500);
+    }
   };
 
   const [body, setBody] = useState<GetActivityRequest>({
@@ -62,15 +133,21 @@ export const TransactionTable = () => {
     isLoading,
     isValidating,
     mutate,
-  } = useSWRImmutable<Transaction[]>(
+  } = useSWR<Transaction[]>(
     user ? [{ ...body, userId: user.uid }] : null,
-    ([body]) => GetTransactions(body)
+    ([body]) => GetTransactions(body),
+    {
+      onSuccess(data) {
+        setUnFilteredData(data);
+      },
+      keepPreviousData: true,
+    }
   );
 
   if (!user || !data) return <div>No Data!</div>;
 
   return (
-    <div className="flex-1 flex flex-col gap-2">
+    <div className="flex-1 min-w-full flex flex-col gap-2">
       <TransactionFilters
         userId={user.uid}
         setTransactionModal={setIsActive}
@@ -92,7 +169,7 @@ export const TransactionTable = () => {
           setCategory("");
           setType("ALL");
           setMinPrice("");
-          setMinPrice("");
+          setMaxPrice("");
           setSkip(0);
           setTake(10);
           setBody({
@@ -102,6 +179,7 @@ export const TransactionTable = () => {
             skip: "0",
             take: "10",
           });
+          mutate(unFilteredData);
         }}
       />
       <Table data={data} />
@@ -110,7 +188,7 @@ export const TransactionTable = () => {
 };
 
 // TODO:
-// 1. Finish the other filters
-// 2. Change the data type of amount from string to number
-// 3. Pagination
-// 4. CRUD of Transactions
+// 1. Pagination
+// 2. CRUD of Transactions
+// 3. Handle States
+// 4. Responsiveness

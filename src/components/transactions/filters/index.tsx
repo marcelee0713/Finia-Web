@@ -40,7 +40,7 @@ export const TransactionFilters = ({
   onReset,
 }: props) => {
   return (
-    <div className="flex gap-1 h-[35px] w-full text-accent">
+    <div className="flex gap-1 h-[35px] min-w-full text-accent">
       <button className="flex items-center justify-center border border-borderColor w-[35px] rounded-lg transition-colors hover:bg-secondary hover:text-primary">
         +
       </button>
@@ -80,6 +80,24 @@ export const TransactionFilters = ({
           });
         }}
       />
+
+      <div className="flex h-full w-fit gap-[4px] text-accent font-light text-sm">
+        <input
+          value={minPriceInput}
+          onChange={minHandleInput}
+          placeholder="₱ MIN"
+          type="number"
+          className="bg-primary border border-borderColor rounded-lg px-3 w-[100px] outline-none"
+        />
+        <div className="self-center">-</div>
+        <input
+          value={maxPriceInput}
+          onChange={maxHandleInput}
+          placeholder="₱ MAX"
+          type="number"
+          className="bg-primary border border-borderColor rounded-lg px-3 w-[100px] outline-none"
+        />
+      </div>
 
       <Filter
         element={currentCategory}

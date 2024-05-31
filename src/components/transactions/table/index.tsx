@@ -50,7 +50,7 @@ export const Table = ({ data }: props) => {
                     {{
                       asc: " ↑",
                       desc: " ↓",
-                    }[header.column.getIsSorted() as string] ?? null}
+                    }[header.column.getIsSorted() as string] ?? " ↕"}
                   </div>
                 </th>
               ))}

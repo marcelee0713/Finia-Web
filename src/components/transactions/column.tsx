@@ -9,16 +9,14 @@ export const columns = [
   columnHelper.accessor("type", {
     header: () => "Type",
     cell: (info) => info.getValue(),
-    enableSorting: false,
   }),
   columnHelper.accessor("amount", {
     header: () => "Amount",
-    cell: (info) => formatAmount(info.getValue(), true),
+    cell: (info) => formatAmount(info.getValue().toString(), true),
   }),
   columnHelper.accessor("categoryName", {
     header: () => "Category",
     cell: (info) => info.getValue(),
-    enableSorting: false,
   }),
   columnHelper.accessor("createdAt", {
     header: () => "Date",

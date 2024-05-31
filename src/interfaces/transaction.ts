@@ -19,12 +19,23 @@ export interface TransformedTotalAmountInCategory {
   amount: number;
 }
 
-export interface Transaction {
+export interface TransactionRes {
   categoryName: string;
   uid: string;
   userId: string;
   categoryId: string;
   amount: string;
+  type: TransactionTypes;
+  note?: string | undefined;
+  createdAt: Date;
+}
+
+export interface Transaction {
+  categoryName: string;
+  uid: string;
+  userId: string;
+  categoryId: string;
+  amount: number;
   type: TransactionTypes;
   note?: string | undefined;
   createdAt: Date;

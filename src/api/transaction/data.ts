@@ -1,6 +1,10 @@
 import apiUrl from "@/config";
 import { ErrorResponse } from "@/interfaces/error";
-import { GetActivityRequest, Transaction } from "@/interfaces/transaction";
+import {
+  GetActivityRequest,
+  Transaction,
+  TransactionRes,
+} from "@/interfaces/transaction";
 
 export const GetTransactions = async (
   req: GetActivityRequest
@@ -30,7 +34,12 @@ export const GetTransactions = async (
     throw err;
   }
 
-  const data: Transaction[] = await res.json();
+  const resJson: TransactionRes[] = await res.json();
+
+  const data: Transaction[] = resJson.map((transactionRes) => ({
+    ...transactionRes,
+    amount: parseFloat(transactionRes.amount),
+  }));
 
   return data;
 };

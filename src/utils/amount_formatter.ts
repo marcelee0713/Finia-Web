@@ -13,3 +13,16 @@ export const formatAmount = (input: string, withCurrency: boolean): string => {
 
   return result;
 };
+
+export const formatToTwoDecimalPlaces = (value: string): string => {
+  value = value.replace(/[^0-9.]/g, "");
+
+  const parts = value.split(".");
+
+  if (parts.length > 1) {
+    parts[1] = parts[1].slice(0, 2);
+    value = parts.join(".");
+  }
+
+  return value;
+};
