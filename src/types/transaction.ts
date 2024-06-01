@@ -33,3 +33,5 @@ export type TransactionUseCases =
   | "TOTAL_TRANSACTION_THIS_MONTH_INFO"
   | "HIGHEST_TRANSACTION_IN_A_DAY_INFO"
   | "TOTAL_TRANSACTIONS_INFO";
+
+export type SortOrder = "asc" | "desc" | undefined;

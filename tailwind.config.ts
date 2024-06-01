@@ -61,6 +61,7 @@ const config: Config = {
         secondary: "#F7DC2A",
         accent: "#DFDFDF",
         borderColor: "rgba(247, 220, 42, 0.6)",
+        borderColorDisabled: "rgba(247, 220, 42, 0.2)",
       },
     },
   },

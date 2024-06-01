@@ -1,5 +1,6 @@
 import {
   Months,
+  SortOrder,
   TransactionTypes,
   TransactionUseCases,
 } from "@/types/transaction";
@@ -41,6 +42,18 @@ export interface Transaction {
   createdAt: Date;
 }
 
+export interface TransactionDataRes {
+  data: TransactionRes[];
+  length: string;
+  filteredLength: string;
+}
+
+export interface TransactionData {
+  data: Transaction[];
+  length: string;
+  filteredLength: string;
+}
+
 export interface ActivityInfo {
   userId: string;
   useCase: TransactionUseCases;
@@ -73,10 +86,14 @@ export interface MonthlyData {
 }
 
 export interface GetActivityRequest {
-  userId: string;
   type?: TransactionTypes | string;
   category?: string;
   useCase?: TransactionUseCases;
+  minAmount?: string;
+  maxAmount?: string;
   skip?: string;
   take?: string;
+  amountOrder?: SortOrder;
+  dateOrder?: SortOrder;
+  noteOrder?: SortOrder;
 }

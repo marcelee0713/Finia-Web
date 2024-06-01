@@ -9,6 +9,7 @@ export const columns = [
   columnHelper.accessor("type", {
     header: () => "Type",
     cell: (info) => info.getValue(),
+    enableSorting: false,
   }),
   columnHelper.accessor("amount", {
     header: () => "Amount",
@@ -17,14 +18,17 @@ export const columns = [
   columnHelper.accessor("categoryName", {
     header: () => "Category",
     cell: (info) => info.getValue(),
+    enableSorting: false,
   }),
   columnHelper.accessor("createdAt", {
     header: () => "Date",
     cell: (info) => formatDate(info.getValue().toString()),
+    sortDescFirst: true,
   }),
 
   columnHelper.accessor("note", {
     header: () => "Note",
     cell: (info) => info.getValue() ?? "",
+    sortUndefined: "last",
   }),
 ];

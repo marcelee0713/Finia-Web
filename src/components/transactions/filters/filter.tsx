@@ -4,7 +4,7 @@ import { FaCaretDown } from "react-icons/fa6";
 
 interface props {
   element: string;
-  onElementChange: Dispatch<SetStateAction<string>>;
+  onElementChange?: Dispatch<SetStateAction<string>>;
   filterArr: string[];
   onPress?: (type?: string) => void;
   width?: string;
@@ -38,7 +38,7 @@ export const Filter = ({
       <ul
         className={`${
           isActive ? "block" : "hidden"
-        } flex flex-col gap-2 p-2 absolute left-0 top-10 w-full bg-primary border border-borderColor rounded-lg`}
+        } flex flex-col gap-2 p-2 absolute left-0 top-10 w-full bg-primary border border-borderColor rounded-lg z-10`}
       >
         {filterArr.map((val, i) => {
           const selected: boolean =
@@ -48,7 +48,7 @@ export const Filter = ({
             <li
               key={i}
               onClick={() => {
-                if (!selected) {
+                if (!selected && onElementChange) {
                   onElementChange(filterArr[i]);
                   setIsActive(false);
                 }

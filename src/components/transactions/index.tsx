@@ -1,7 +1,6 @@
 "use client";
 import React, { useState } from "react";
-
-import { GetActivityRequest, Transaction } from "@/interfaces/transaction";
+import { GetActivityRequest, TransactionData } from "@/interfaces/transaction";
 import { GetTransactions } from "@/api/transaction/data";
 import { useGlobalContext } from "@/app/context/provider";
 import useSWR from "swr";
@@ -14,6 +13,8 @@ import { TransactionFilters } from "./filters";
 import { Table } from "./table";
 import { formatToTwoDecimalPlaces } from "@/utils/amount_formatter";
 import { toast } from "sonner";
+import { PaginationState, SortingState } from "@tanstack/react-table";
+import { useDebouncedCallback } from "use-debounce";
 
 export const TransactionTable = () => {
   const { user } = useGlobalContext();
@@ -29,8 +30,6 @@ export const TransactionTable = () => {
   const [take, setTake] = useState(10);
 
   const [type, setType] = useState<string>("ALL");
-
-  const [unFilteredData, setUnFilteredData] = useState<Transaction[]>([]);
 
   const [categoryArr, setCategoryArr] = useState<string[]>(
     type === "ALL"
@@ -66,90 +65,111 @@ export const TransactionTable = () => {
     handleAmountChange(min, max);
   };
 
-  const handleAmountChange = (min: number, max: number) => {
-    if (isNaN(min) && isNaN(max)) {
-      setTimeout(() => mutate(unFilteredData, false), 500);
-      return;
-    }
+  const resetPagination = () => {
+    setSkip(0);
 
-    if (!isNaN(min) && !isNaN(max)) {
-      console.log("Scenario 1");
+    setTake(10);
 
-      if (min > max) {
-        toast.dismiss();
-        toast.error("Amount range invalid");
-        return;
-      }
-
-      if (max < min) {
-        toast.dismiss();
-        toast.error("Amount range invalid");
-        return;
-      }
-
-      toast.dismiss();
-
-      const newData = unFilteredData.filter(
-        (transaction) => transaction.amount >= min && transaction.amount <= max
-      );
-
-      setTimeout(() => mutate(newData, false), 500);
-    }
-
-    if (!isNaN(min) && isNaN(max)) {
-      console.log("Scenario 2");
-
-      const newData = unFilteredData.filter(
-        (transaction) => transaction.amount >= min
-      );
-
-      setTimeout(() => mutate(newData, false), 500);
-    }
-
-    if (!isNaN(max) && isNaN(min)) {
-      console.log("Scenario 3");
-
-      const newData = unFilteredData.filter(
-        (transaction) => transaction.amount <= max
-      );
-
-      console.table(newData);
-
-      setTimeout(() => mutate(newData, false), 500);
-    }
+    setPagination({
+      pageIndex: 0,
+      pageSize: 10,
+    });
   };
 
+  const handleAmountChange = useDebouncedCallback(
+    (min: number, max: number) => {
+      if (isNaN(min) && isNaN(max)) {
+        resetPagination();
+
+        setBody({
+          ...body,
+          minAmount: min.toString(),
+          maxAmount: max.toString(),
+        });
+        return;
+      }
+
+      if (!isNaN(min) && !isNaN(max)) {
+        if (min > max) {
+          toast.dismiss();
+          toast.error("Amount range invalid");
+          return;
+        }
+
+        if (max < min) {
+          toast.dismiss();
+          toast.error("Amount range invalid");
+          return;
+        }
+
+        toast.dismiss();
+
+        resetPagination();
+
+        setBody({
+          ...body,
+          minAmount: min.toString(),
+          maxAmount: max.toString(),
+        });
+      }
+
+      if (!isNaN(min) && isNaN(max)) {
+        resetPagination();
+
+        setBody({
+          ...body,
+          minAmount: min.toString(),
+        });
+      }
+
+      if (!isNaN(max) && isNaN(min)) {
+        resetPagination();
+
+        setBody({
+          ...body,
+          maxAmount: max.toString(),
+        });
+      }
+    },
+    500
+  );
+
   const [body, setBody] = useState<GetActivityRequest>({
-    userId: user ? user.uid : "",
     type: type === "ALL" ? "" : type,
     category: category,
     skip: skip.toString(),
     take: take.toString(),
+    dateOrder: "desc",
   });
 
   const {
-    data = [],
+    data: transactions,
     error,
     isLoading,
     isValidating,
     mutate,
-  } = useSWR<Transaction[]>(
-    user ? [{ ...body, userId: user.uid }] : null,
-    ([body]) => GetTransactions(body),
-    {
-      onSuccess(data) {
-        setUnFilteredData(data);
-      },
-      keepPreviousData: true,
-    }
-  );
+  } = useSWR<TransactionData>(body, (body) => GetTransactions(body), {
+    keepPreviousData: true,
+  });
 
-  if (!user || !data) return <div>No Data!</div>;
+  const [pagination, setPagination] = React.useState<PaginationState>({
+    pageIndex: skip,
+    pageSize: take,
+  });
+
+  const [sorting, setSorting] = React.useState<SortingState>([
+    {
+      desc: true,
+      id: "createdAt",
+    },
+  ]);
+
+  if (!user || !transactions) return <div>No Data!</div>;
 
   return (
     <div className="flex-1 min-w-full flex flex-col gap-2">
       <TransactionFilters
-        userId={user.uid}
+        isLoading={isLoading}
         setTransactionModal={setIsActive}
         transactionTypes={TRANSACTION_TYPES}
         currentType={type}
@@ -167,28 +187,62 @@ export const TransactionTable = () => {
         }}
         onReset={() => {
           setCategory("");
+
           setType("ALL");
+
           setMinPrice("");
+
           setMaxPrice("");
+
           setSkip(0);
+
           setTake(10);
+
+          setPagination({
+            pageIndex: 0,
+            pageSize: 10,
+          });
+
+          setSorting([]);
+
           setBody({
-            userId: user ? user.uid : "",
             category: "",
             type: "",
             skip: "0",
             take: "10",
+            minAmount: "",
+            maxAmount: "",
           });
-          mutate(unFilteredData);
         }}
       />
-      <Table data={data} />
+
+      <Table
+        data={transactions.data}
+        sorting={sorting}
+        pagination={pagination}
+        setSorting={setSorting}
+        setPagination={setPagination}
+        allDataLength={parseInt(transactions.filteredLength)}
+        onSort={(amountOrder, dateOrder, noteOrder) => {
+          setBody({ ...body, dateOrder, amountOrder, noteOrder });
+        }}
+        onPaginate={(skipVal, takeVal) => {
+          setSkip(skipVal);
+
+          setTake(takeVal);
+
+          setBody({
+            ...body,
+            skip: skipVal.toString(),
+            take: takeVal.toString(),
+          });
+        }}
+      />
     </div>
   );
 };
 
 // TODO:
-// 1. Pagination
-// 2. CRUD of Transactions
-// 3. Handle States
-// 4. Responsiveness
+// 1. CRUD of Transactions
+// 2. Handle States
+// 3. Responsiveness

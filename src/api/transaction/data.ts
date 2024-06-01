@@ -3,12 +3,14 @@ import { ErrorResponse } from "@/interfaces/error";
 import {
   GetActivityRequest,
   Transaction,
+  TransactionData,
+  TransactionDataRes,
   TransactionRes,
 } from "@/interfaces/transaction";
 
 export const GetTransactions = async (
   req: GetActivityRequest
-): Promise<Transaction[]> => {
+): Promise<TransactionData> => {
   const res = await fetch(`${apiUrl}/transactions/`, {
     headers: {
       "Content-Type": "application/json",
@@ -34,12 +36,19 @@ export const GetTransactions = async (
     throw err;
   }
 
-  const resJson: TransactionRes[] = await res.json();
+  const dataStrType: TransactionDataRes = await res.json();
 
-  const data: Transaction[] = resJson.map((transactionRes) => ({
-    ...transactionRes,
-    amount: parseFloat(transactionRes.amount),
-  }));
+  const data: TransactionData = {
+    ...dataStrType,
+    data: [],
+  };
+
+  dataStrType.data.forEach((val) => {
+    data.data.push({
+      ...val,
+      amount: parseFloat(val.amount),
+    });
+  });
 
   return data;
 };

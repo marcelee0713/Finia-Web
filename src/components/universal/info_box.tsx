@@ -29,7 +29,7 @@ export const InfoBox = ({ orientation, icon, useCase, title }: props) => {
   const textStyle = orientation === "row" ? "" : "text-center";
 
   const { error, data, isLoading } = useSWR<ActivityInfo | undefined>(
-    user ? [{ userId: user.uid, useCase: useCase }] : null,
+    [{ useCase: useCase }],
     ([body]) => GetActivityInfo(body)
   );
 

@@ -3,9 +3,10 @@ import { Filter } from "./filter";
 import { EXPENSES_CATEGORIES_ARR, REVENUE_CATEGORIES_ARR } from "@/constants";
 import { GetActivityRequest } from "@/interfaces/transaction";
 import { MdOutlineRestartAlt } from "react-icons/md";
+import Image from "next/image";
+import icon from "../../../../public/icons/base/loading.svg";
 
 interface props {
-  userId: string;
   setTransactionModal: Dispatch<SetStateAction<boolean>>;
   transactionTypes: string[];
   currentType: string;
@@ -20,10 +21,10 @@ interface props {
   onSetCategories: Dispatch<SetStateAction<string[]>>;
   onChange: (body: GetActivityRequest) => void;
   onReset: () => void;
+  isLoading: boolean;
 }
 
 export const TransactionFilters = ({
-  userId,
   categories,
   currentCategory,
   onSetCategories,
@@ -38,12 +39,19 @@ export const TransactionFilters = ({
   transactionTypes,
   onChange,
   onReset,
+  isLoading,
 }: props) => {
   return (
     <div className="flex gap-1 h-[35px] min-w-full text-accent">
       <button className="flex items-center justify-center border border-borderColor w-[35px] rounded-lg transition-colors hover:bg-secondary hover:text-primary">
         +
       </button>
+      <div
+        onClick={onReset}
+        className="flex items-center justify-center border border-borderColor w-[35px] rounded-lg transition-colors hover:bg-secondary hover:text-primary cursor-pointer"
+      >
+        <MdOutlineRestartAlt size={20} />
+      </div>
 
       <Filter
         element={currentType}
@@ -65,7 +73,6 @@ export const TransactionFilters = ({
             onCategoryChange("");
 
             onChange({
-              userId: userId,
               category: categoryInArray ?? "",
               type: type === "ALL" ? "" : type,
             });
@@ -74,9 +81,21 @@ export const TransactionFilters = ({
           }
 
           onChange({
-            userId: userId,
             category: categoryInArray ?? "",
             type: type === "ALL" ? "" : type,
+          });
+        }}
+      />
+
+      <Filter
+        element={currentCategory}
+        filterArr={categories}
+        onElementChange={onCategoryChange}
+        textFallback="Category"
+        width="w-[200px]"
+        onPress={(category) => {
+          onChange({
+            category: category ?? "",
           });
         }}
       />
@@ -89,7 +108,6 @@ export const TransactionFilters = ({
           type="number"
           className="bg-primary border border-borderColor rounded-lg px-3 w-[100px] outline-none"
         />
-        <div className="self-center">-</div>
         <input
           value={maxPriceInput}
           onChange={maxHandleInput}
@@ -99,26 +117,16 @@ export const TransactionFilters = ({
         />
       </div>
 
-      <Filter
-        element={currentCategory}
-        filterArr={categories}
-        onElementChange={onCategoryChange}
-        textFallback="Category"
-        width="w-[200px]"
-        onPress={(category) => {
-          onChange({
-            userId: userId,
-            category: category ?? "",
-          });
-        }}
-      />
-
-      <div
-        onClick={onReset}
-        className="flex items-center justify-center border border-borderColor w-[35px] rounded-lg transition-colors hover:bg-secondary hover:text-primary cursor-pointer"
-      >
-        <MdOutlineRestartAlt size={20} />
-      </div>
+      {isLoading && (
+        <Image
+          alt="Loading"
+          src={icon}
+          quality={100}
+          sizes="100vw"
+          width={35}
+          className="animate-spin h-full"
+        />
+      )}
     </div>
   );
 };
