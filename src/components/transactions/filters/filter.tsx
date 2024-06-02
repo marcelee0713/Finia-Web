@@ -4,31 +4,37 @@ import { FaCaretDown } from "react-icons/fa6";
 
 interface props {
   element: string;
+  alignment: "top" | "bottom";
   onElementChange?: Dispatch<SetStateAction<string>>;
   filterArr: string[];
   onPress?: (type?: string) => void;
   width?: string;
+  height?: string;
   textFallback?: string;
-  alignment: "top" | "bottom";
+  additionalStyling?: string;
+  additionalDropdownStyling?: string;
 }
 
 export const Filter = ({
   element,
   filterArr,
   onElementChange,
-  onPress,
   width,
-  textFallback,
+  height,
   alignment,
+  textFallback,
+  onPress,
+  additionalStyling = "",
+  additionalDropdownStyling = "",
 }: props) => {
   const [isActive, setIsActive] = useState(false);
 
   return (
     <div
       onClick={() => setIsActive(!isActive)}
-      className={`h-full ${
-        width ?? "w-[120px]"
-      } relative border border-borderColor p-3 text-accent rounded-lg text-sm cursor-pointer`}
+      className={`${width ?? "w-[120px]"} relative border ${
+        height ?? "h-full"
+      } border-borderColor p-3 text-accent rounded-lg text-sm cursor-pointer ${additionalStyling}`}
     >
       <div className="flex w-full h-full items-center justify-between">
         <div className={`font-bold`}>
@@ -41,8 +47,8 @@ export const Filter = ({
         className={`${
           isActive ? "block" : "hidden"
         } flex flex-col gap-2 p-2 absolute left-0 ${
-          alignment === "top" ? "bottom-10" : "top-10"
-        } w-full bg-primary border border-borderColor rounded-lg z-10`}
+          alignment === "top" ? `bottom-10` : `top-10`
+        } w-full bg-primary border border-borderColor rounded-lg z-10 ${additionalDropdownStyling}`}
       >
         {filterArr.map((val, i) => {
           const selected: boolean =

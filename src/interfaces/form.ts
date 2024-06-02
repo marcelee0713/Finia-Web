@@ -27,6 +27,15 @@ export interface ChangePasswordFormData {
   cfrmPassword: string;
 }
 
+export interface TransactionFormData {
+  type: string;
+  amount: string;
+  category: string;
+  date: Date;
+  note?: string;
+  uid?: string;
+}
+
 export interface CallbacksInterface {
   onLoading: () => void;
   onSuccess: (result: string) => void;

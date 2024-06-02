@@ -43,7 +43,10 @@ export const TransactionFilters = ({
 }: props) => {
   return (
     <div className="flex gap-1 h-[35px] min-w-full text-accent">
-      <button className="flex items-center justify-center border border-borderColor w-[35px] rounded-lg transition-colors hover:bg-secondary hover:text-primary">
+      <button
+        onClick={() => setTransactionModal(true)}
+        className="flex items-center justify-center border border-borderColor w-[35px] rounded-lg transition-colors hover:bg-secondary hover:text-primary"
+      >
         +
       </button>
       <div

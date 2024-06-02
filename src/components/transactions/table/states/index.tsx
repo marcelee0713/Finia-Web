@@ -1,9 +1,6 @@
-import { ErrorResponse } from "@/interfaces/error";
 import { Transaction, TransactionData } from "@/interfaces/transaction";
 import { Table, flexRender } from "@tanstack/react-table";
-import { MdOutlineError } from "react-icons/md";
 import React from "react";
-import { HiMiniQuestionMarkCircle } from "react-icons/hi2";
 import { LoadingTable } from "./loading";
 import { ErrorTable } from "./error";
 import { EmptyTable } from "./no-content";

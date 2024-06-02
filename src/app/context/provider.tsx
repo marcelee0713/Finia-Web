@@ -82,6 +82,9 @@ export const Provider: React.FC<props> = ({ children }) => {
             color: "#001220",
             border: "none",
           },
+          classNames: {
+            closeButton: "bg-secondary border-borderColor ",
+          },
         }}
       />
       {children}

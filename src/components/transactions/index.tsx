@@ -14,6 +14,8 @@ import { formatToTwoDecimalPlaces } from "@/utils/amount_formatter";
 import { toast } from "sonner";
 import { PaginationState, SortingState } from "@tanstack/react-table";
 import { useDebouncedCallback } from "use-debounce";
+import { TransactionModal } from "./modal";
+import useSWRImmutable from "swr/immutable";
 
 export const TransactionTable = () => {
   const [isActive, setIsActive] = useState(false);
@@ -144,7 +146,8 @@ export const TransactionTable = () => {
     error,
     isLoading,
     isValidating,
-  } = useSWR<TransactionData>(body, (body) => GetTransactions(body), {
+    mutate,
+  } = useSWRImmutable<TransactionData>(body, (body) => GetTransactions(body), {
     keepPreviousData: true,
   });
 
@@ -188,14 +191,7 @@ export const TransactionTable = () => {
 
           setMaxPrice("");
 
-          setSkip(0);
-
-          setTake(10);
-
-          setPagination({
-            pageIndex: 0,
-            pageSize: 10,
-          });
+          resetPagination();
 
           setSorting([]);
 
@@ -232,7 +228,17 @@ export const TransactionTable = () => {
             take: takeVal.toString(),
           });
         }}
+        revalidate={mutate}
       />
+
+      {isActive && (
+        <TransactionModal
+          setModal={setIsActive}
+          data={transactions}
+          revalidate={mutate}
+          mode="CREATE"
+        />
+      )}
     </div>
   );
 };

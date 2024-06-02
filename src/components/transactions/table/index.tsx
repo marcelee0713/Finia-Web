@@ -12,6 +12,7 @@ import { TransactionData } from "@/interfaces/transaction";
 import { Filter } from "../filters/filter";
 import { SortOrder } from "@/types/transaction";
 import { TableState } from "./states";
+import { KeyedMutator } from "swr";
 
 interface props {
   data: TransactionData | undefined;
@@ -27,6 +28,7 @@ interface props {
   setPagination: Dispatch<React.SetStateAction<PaginationState>>;
   sorting: SortingState;
   setSorting: Dispatch<React.SetStateAction<SortingState>>;
+  revalidate: KeyedMutator<TransactionData>;
 }
 
 export const Table = ({
@@ -39,10 +41,11 @@ export const Table = ({
   onSort,
   sorting,
   setSorting,
+  revalidate,
 }: props) => {
   const table = useReactTable({
     data: data ? data.data : [],
-    columns: columns,
+    columns: columns({ revalidate, data }),
     debugTable: true,
     getCoreRowModel: getCoreRowModel(),
     rowCount: data ? parseInt(data.filteredLength) : 0, // Put the full length of the user's transactions
