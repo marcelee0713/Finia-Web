@@ -103,7 +103,7 @@ export const ChangePassword = ({
   };
 
   return (
-    <div className="absolute inset-0 backdrop-blur-sm bg-opacity-80 bg-primary w-full h-full z-10 flex items-center justify-center px-2 ">
+    <div className="absolute inset-0 backdrop-blur-sm bg-opacity-80 bg-primary w-full h-full z-10 flex items-center justify-center px-2 py-2">
       <form
         onSubmit={handleSubmit(onSubmit)}
         onKeyDown={preventEnterKeySubmission}

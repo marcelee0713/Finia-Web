@@ -1,5 +1,4 @@
-import { TransactionTypes } from "@/types/transaction";
-import React, { Dispatch, SetStateAction, useState } from "react";
+import React, { Dispatch, SetStateAction, forwardRef, useState } from "react";
 import { FaCaretDown } from "react-icons/fa6";
 
 interface props {
@@ -15,65 +14,73 @@ interface props {
   additionalDropdownStyling?: string;
 }
 
-export const Filter = ({
-  element,
-  filterArr,
-  onElementChange,
-  width,
-  height,
-  alignment,
-  textFallback,
-  onPress,
-  additionalStyling = "",
-  additionalDropdownStyling = "",
-}: props) => {
-  const [isActive, setIsActive] = useState(false);
+export const Filter = forwardRef<HTMLDivElement, props>(
+  (
+    {
+      element,
+      filterArr,
+      onElementChange,
+      width,
+      height,
+      alignment,
+      textFallback,
+      onPress,
+      additionalStyling = "",
+      additionalDropdownStyling = "",
+    }: props,
+    ref
+  ) => {
+    const [isActive, setIsActive] = useState(false);
 
-  return (
-    <div
-      onClick={() => setIsActive(!isActive)}
-      className={`${width ?? "w-[120px]"} relative border ${
-        height ?? "h-full"
-      } border-borderColor p-3 text-accent rounded-lg text-sm cursor-pointer ${additionalStyling}`}
-    >
-      <div className="flex w-full h-full items-center justify-between">
-        <div className={`font-bold`}>
-          {element === "" ? textFallback : element}
-        </div>
-        <FaCaretDown />
-      </div>
-
-      <ul
-        className={`${
-          isActive ? "block" : "hidden"
-        } flex flex-col gap-2 p-2 absolute left-0 ${
-          alignment === "top" ? `bottom-10` : `top-10`
-        } w-full bg-primary border border-borderColor rounded-lg z-10 ${additionalDropdownStyling}`}
+    return (
+      <div
+        ref={ref}
+        onClick={() => setIsActive(!isActive)}
+        className={`${width ?? "w-[120px]"} relative border ${
+          height ?? "h-full"
+        } border-borderColor p-3 text-accent rounded-lg text-sm cursor-pointer ${additionalStyling}`}
       >
-        {filterArr.map((val, i) => {
-          const selected: boolean =
-            filterArr.findIndex((val) => val === element) === i;
+        <div className="flex w-full h-full items-center justify-between">
+          <div className={`font-bold`}>
+            {element === "" ? textFallback : element}
+          </div>
+          <FaCaretDown />
+        </div>
 
-          return (
-            <li
-              key={i}
-              onClick={() => {
-                if (!selected && onElementChange) {
-                  onElementChange(filterArr[i]);
-                  setIsActive(false);
-                }
+        <ul
+          className={`${
+            isActive ? "block" : "hidden"
+          } flex flex-col gap-2 p-2 absolute left-0 ${
+            alignment === "top" ? `bottom-10` : `top-10`
+          } w-full bg-primary border border-borderColor rounded-lg z-10 ${additionalDropdownStyling}`}
+        >
+          {filterArr.map((val, i) => {
+            const selected: boolean =
+              filterArr.findIndex((val) => val === element) === i;
 
-                if (onPress) onPress(filterArr[i]);
-              }}
-              className={`hover:bg-secondary hover:text-primary rounded-sm px-1 cursor-pointer ${
-                selected ? "bg-secondary text-primary" : ""
-              }`}
-            >
-              {val}
-            </li>
-          );
-        })}
-      </ul>
-    </div>
-  );
-};
+            return (
+              <li
+                key={i}
+                onClick={() => {
+                  if (!selected && onElementChange) {
+                    onElementChange(filterArr[i]);
+                    setIsActive(false);
+                  }
+
+                  if (onPress) onPress(filterArr[i]);
+                }}
+                className={`hover:bg-secondary hover:text-primary rounded-sm px-1 cursor-pointer ${
+                  selected ? "bg-secondary text-primary" : ""
+                }`}
+              >
+                {val}
+              </li>
+            );
+          })}
+        </ul>
+      </div>
+    );
+  }
+);
+
+Filter.displayName = "Filter"; // Add displayName to help with debugging

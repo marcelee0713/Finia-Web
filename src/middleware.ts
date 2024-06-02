@@ -61,5 +61,6 @@ export const config = {
     "/greet",
     "/dashboard",
     "/profile",
+    "/transactions",
   ],
 };

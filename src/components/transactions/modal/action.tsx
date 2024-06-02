@@ -79,6 +79,7 @@ export const CellActionButton = ({ obj, revalidate, data }: props) => {
           </li>
           <li
             onClick={() => {
+              toast.dismiss();
               toast.warning("Are you sure you want to delete it?", {
                 action: {
                   label: "Yes",
