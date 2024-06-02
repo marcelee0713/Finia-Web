@@ -9,6 +9,7 @@ interface props {
   onPress?: (type?: string) => void;
   width?: string;
   textFallback?: string;
+  alignment: "top" | "bottom";
 }
 
 export const Filter = ({
@@ -18,6 +19,7 @@ export const Filter = ({
   onPress,
   width,
   textFallback,
+  alignment,
 }: props) => {
   const [isActive, setIsActive] = useState(false);
 
@@ -38,7 +40,9 @@ export const Filter = ({
       <ul
         className={`${
           isActive ? "block" : "hidden"
-        } flex flex-col gap-2 p-2 absolute left-0 top-10 w-full bg-primary border border-borderColor rounded-lg z-10`}
+        } flex flex-col gap-2 p-2 absolute left-0 ${
+          alignment === "top" ? "bottom-10" : "top-10"
+        } w-full bg-primary border border-borderColor rounded-lg z-10`}
       >
         {filterArr.map((val, i) => {
           const selected: boolean =

@@ -21,7 +21,7 @@ interface props {
   onSetCategories: Dispatch<SetStateAction<string[]>>;
   onChange: (body: GetActivityRequest) => void;
   onReset: () => void;
-  isLoading: boolean;
+  isValidating: boolean;
 }
 
 export const TransactionFilters = ({
@@ -39,7 +39,7 @@ export const TransactionFilters = ({
   transactionTypes,
   onChange,
   onReset,
-  isLoading,
+  isValidating,
 }: props) => {
   return (
     <div className="flex gap-1 h-[35px] min-w-full text-accent">
@@ -57,6 +57,7 @@ export const TransactionFilters = ({
         element={currentType}
         filterArr={transactionTypes}
         onElementChange={onTypeChange}
+        alignment="bottom"
         onPress={(type) => {
           const arr =
             type === "ALL"
@@ -91,6 +92,7 @@ export const TransactionFilters = ({
         element={currentCategory}
         filterArr={categories}
         onElementChange={onCategoryChange}
+        alignment="bottom"
         textFallback="Category"
         width="w-[200px]"
         onPress={(category) => {
@@ -117,7 +119,7 @@ export const TransactionFilters = ({
         />
       </div>
 
-      {isLoading && (
+      {isValidating && (
         <Image
           alt="Loading"
           src={icon}

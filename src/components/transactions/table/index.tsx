@@ -8,13 +8,15 @@ import {
   SortingState,
 } from "@tanstack/react-table";
 import { columns } from "../column";
-import { Transaction } from "@/interfaces/transaction";
+import { TransactionData } from "@/interfaces/transaction";
 import { Filter } from "../filters/filter";
 import { SortOrder } from "@/types/transaction";
+import { TableState } from "./states";
 
 interface props {
-  data: Transaction[];
-  allDataLength: number;
+  data: TransactionData | undefined;
+  isLoading: boolean;
+  error: any;
   onPaginate: (skipValue: number, takeValue: number) => void;
   onSort: (
     onAmountSort: SortOrder,
@@ -29,7 +31,8 @@ interface props {
 
 export const Table = ({
   data,
-  allDataLength,
+  isLoading,
+  error,
   onPaginate,
   pagination,
   setPagination,
@@ -38,11 +41,11 @@ export const Table = ({
   setSorting,
 }: props) => {
   const table = useReactTable({
-    data,
+    data: data ? data.data : [],
     columns: columns,
     debugTable: true,
     getCoreRowModel: getCoreRowModel(),
-    rowCount: allDataLength, // Put the full length of the user's transactions
+    rowCount: data ? parseInt(data.filteredLength) : 0, // Put the full length of the user's transactions
     state: {
       pagination,
       sorting,
@@ -83,51 +86,20 @@ export const Table = ({
 
   return (
     <div className="flex-1 flex flex-col gap-2">
-      <div className="min-w-full min-h-fit border border-borderColor overflow-hidden rounded-lg  overflow-x-auto overflow-y-auto no-scrollbar">
-        <table className="min-w-full max-h-full text-accent table-auto divide-y divide-borderColor text-sm">
-          <thead>
-            {table.getHeaderGroups().map((headerGroup) => (
-              <tr key={headerGroup.id}>
-                {headerGroup.headers.map((header) => (
-                  <th
-                    key={header.id}
-                    className="border-y border-borderColor text-start px-6 py-4"
-                  >
-                    <div onClick={header.column.getToggleSortingHandler()}>
-                      {flexRender(
-                        header.column.columnDef.header,
-                        header.getContext()
-                      )}
-                      {{
-                        asc: " ↑",
-                        desc: " ↓",
-                      }[header.column.getIsSorted() as string] ?? null}
-                    </div>
-                  </th>
-                ))}
-              </tr>
-            ))}
-          </thead>
-          <tbody className="divide-y divide-borderColor">
-            {table.getRowModel().rows.map((row) => (
-              <tr key={row.id}>
-                {row.getVisibleCells().map((cell) => (
-                  <td key={cell.id} className="px-6 py-4 font-light">
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </td>
-                ))}
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+      <TableState
+        data={data}
+        error={error}
+        isLoading={isLoading}
+        table={table}
+      />
+
       <div className="flex items-center justify-between gap-2 text-accent text-sm font-light h-[35px]">
         <div className="h-full flex items-center justify-center">
           Showing {table.getRowModel().rows.length.toLocaleString()} of{" "}
-          {allDataLength.toLocaleString()} Rows
+          {data?.filteredLength.toLocaleString()} Rows
         </div>
 
-        <div className="flex items-center gap-10 h-full">
+        <div className="flex items-center gap-5 lg:gap-10 h-full">
           <div className="flex items-center h-full gap-2">
             <div className="font-bold">Rows per page</div>
             <Filter
@@ -136,6 +108,8 @@ export const Table = ({
               onPress={(e) => {
                 table.setPageSize(Number(e));
               }}
+              alignment="top"
+              width="w-[75px]"
             />
           </div>
 

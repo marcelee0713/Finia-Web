@@ -2,7 +2,6 @@
 import React, { useState } from "react";
 import { GetActivityRequest, TransactionData } from "@/interfaces/transaction";
 import { GetTransactions } from "@/api/transaction/data";
-import { useGlobalContext } from "@/app/context/provider";
 import useSWR from "swr";
 import {
   EXPENSES_CATEGORIES_ARR,
@@ -17,8 +16,6 @@ import { PaginationState, SortingState } from "@tanstack/react-table";
 import { useDebouncedCallback } from "use-debounce";
 
 export const TransactionTable = () => {
-  const { user } = useGlobalContext();
-
   const [isActive, setIsActive] = useState(false);
 
   const [minPrice, setMinPrice] = useState<string>("");
@@ -147,7 +144,6 @@ export const TransactionTable = () => {
     error,
     isLoading,
     isValidating,
-    mutate,
   } = useSWR<TransactionData>(body, (body) => GetTransactions(body), {
     keepPreviousData: true,
   });
@@ -164,12 +160,10 @@ export const TransactionTable = () => {
     },
   ]);
 
-  if (!user || !transactions) return <div>No Data!</div>;
-
   return (
-    <div className="flex-1 min-w-full flex flex-col gap-2">
+    <div className="flex-1 min-w-[750px] flex flex-col gap-2">
       <TransactionFilters
-        isLoading={isLoading}
+        isValidating={isValidating}
         setTransactionModal={setIsActive}
         transactionTypes={TRANSACTION_TYPES}
         currentType={type}
@@ -217,12 +211,13 @@ export const TransactionTable = () => {
       />
 
       <Table
-        data={transactions.data}
+        data={transactions}
+        isLoading={isLoading}
+        error={error}
         sorting={sorting}
         pagination={pagination}
         setSorting={setSorting}
         setPagination={setPagination}
-        allDataLength={parseInt(transactions.filteredLength)}
         onSort={(amountOrder, dateOrder, noteOrder) => {
           setBody({ ...body, dateOrder, amountOrder, noteOrder });
         }}
@@ -244,5 +239,3 @@ export const TransactionTable = () => {
 
 // TODO:
 // 1. CRUD of Transactions
-// 2. Handle States
-// 3. Responsiveness
