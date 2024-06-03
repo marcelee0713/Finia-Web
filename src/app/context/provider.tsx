@@ -6,7 +6,7 @@ import { ProviderData, UserData } from "@/interfaces/user";
 import { createContext, useState, ReactNode, useContext } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import useSWR from "swr";
-import { AUTH_PAGES } from "@/constants";
+import { AUTH_PAGES, UNIVERSAL_PAGES, USER_PAGES } from "@/constants";
 import { ErrorResponse } from "@/interfaces/error";
 
 interface props {
@@ -39,10 +39,10 @@ export const Provider: React.FC<props> = ({ children }) => {
       const error = err as ErrorResponse;
 
       const notAuthorized = error.status === "401";
-      const isLoggedIn = !AUTH_PAGES.includes(pathname) && !active;
-      const onUniversalPage = user && pathname === "/about" && !active;
 
-      const condition = (notAuthorized && isLoggedIn) || onUniversalPage;
+      const isLoggedIn = USER_PAGES.includes(pathname);
+
+      const condition = isLoggedIn && notAuthorized;
 
       if (condition) {
         toast.dismiss();

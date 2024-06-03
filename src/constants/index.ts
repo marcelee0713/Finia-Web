@@ -101,6 +101,10 @@ export const AUTH_PAGES = [
   "/greet",
 ];
 
+export const USER_PAGES = ["/dashboard", "/profile", "/transactions"];
+
+export const UNIVERSAL_PAGES = ["/about"];
+
 export const ABOUT_US_INFOS = {
   about1: `Finia is a streamlined Revenue and Expense Tracker designed to simplify financial management for individuals. 
   With Finia, users can easily track their income sources and expenses, gaining insight into their spending habits and 
