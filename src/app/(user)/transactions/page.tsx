@@ -1,5 +1,4 @@
 import { TransactionTable } from "@/components/transactions";
-import React from "react";
 
 const Transactions = () => {
   return (

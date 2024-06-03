@@ -1,10 +1,16 @@
-import React, { Dispatch, SetStateAction } from "react";
+import React, { Dispatch, SetStateAction, useState } from "react";
 import { Filter } from "./filter";
 import { EXPENSES_CATEGORIES_ARR, REVENUE_CATEGORIES_ARR } from "@/constants";
-import { GetActivityRequest } from "@/interfaces/transaction";
+import {
+  GetActivityRequest,
+  Transaction,
+  csvProps,
+} from "@/interfaces/transaction";
 import { MdOutlineRestartAlt } from "react-icons/md";
 import Image from "next/image";
 import icon from "../../../../public/icons/base/loading.svg";
+import { downloadCSV, toCSVString } from "@/utils/json-to-csv";
+import { toast } from "sonner";
 
 interface props {
   setTransactionModal: Dispatch<SetStateAction<boolean>>;
@@ -22,6 +28,7 @@ interface props {
   onChange: (body: GetActivityRequest) => void;
   onReset: () => void;
   isValidating: boolean;
+  data: Transaction[];
 }
 
 export const TransactionFilters = ({
@@ -40,7 +47,24 @@ export const TransactionFilters = ({
   onChange,
   onReset,
   isValidating,
+  data,
 }: props) => {
+  const props: csvProps = {
+    arr: data,
+    onLoading() {
+      toast.dismiss();
+    },
+    onError(res) {
+      toast.dismiss();
+      toast.error(res);
+    },
+    onSuccess(res) {
+      toast.dismiss();
+      downloadCSV(res, "finia_transactions");
+      console.log(res);
+    },
+  };
+
   return (
     <div className="flex gap-1 h-[35px] min-w-full text-accent">
       <button
@@ -121,6 +145,21 @@ export const TransactionFilters = ({
           className="bg-primary border border-borderColor rounded-lg px-3 w-[100px] outline-none"
         />
       </div>
+
+      <button
+        onClick={() =>
+          toast.warning("Export the current rows, are you sure?", {
+            action: {
+              label: "Yes",
+              onClick: () => toCSVString(props),
+            },
+            closeButton: true,
+          })
+        }
+        className="flex items-center justify-center border border-borderColor w-auto px-2 rounded-lg transition-colors hover:bg-secondary hover:text-primary text-sm font-light"
+      >
+        CSV
+      </button>
 
       {isValidating && (
         <Image

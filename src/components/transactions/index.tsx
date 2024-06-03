@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { GetActivityRequest, TransactionData } from "@/interfaces/transaction";
 import { GetTransactions } from "@/api/transaction/data";
-import useSWR from "swr";
+
 import {
   EXPENSES_CATEGORIES_ARR,
   REVENUE_CATEGORIES_ARR,
@@ -149,6 +149,7 @@ export const TransactionTable = () => {
     mutate,
   } = useSWRImmutable<TransactionData>(body, (body) => GetTransactions(body), {
     keepPreviousData: true,
+    revalidateIfStale: true,
   });
 
   const [pagination, setPagination] = React.useState<PaginationState>({
@@ -166,6 +167,7 @@ export const TransactionTable = () => {
   return (
     <div className="flex-1 min-w-[750px] flex flex-col gap-2">
       <TransactionFilters
+        data={transactions ? transactions.data : []}
         isValidating={isValidating}
         setTransactionModal={setIsActive}
         transactionTypes={TRANSACTION_TYPES}

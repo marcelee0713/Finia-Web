@@ -97,3 +97,10 @@ export interface GetActivityRequest {
   dateOrder?: SortOrder;
   noteOrder?: SortOrder;
 }
+
+export interface csvProps {
+  arr: Transaction[];
+  onLoading: () => void;
+  onError: (res: string) => void;
+  onSuccess: (res: string) => void;
+}
