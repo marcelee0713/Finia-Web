@@ -1,4 +1,9 @@
 import { TransactionTable } from "@/components/transactions";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Transactions",
+};
 
 const Transactions = () => {
   return (

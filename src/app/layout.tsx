@@ -9,7 +9,10 @@ const openSans = Open_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Finia",
+  title: {
+    default: "Finia",
+    template: "%s | Finia",
+  },
   description:
     "A simplest way to manage and visualize your expenses and revenue in ease.",
 };

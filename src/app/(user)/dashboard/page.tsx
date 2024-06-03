@@ -1,6 +1,11 @@
 import { AnalyzedContainer } from "@/components/dashboard/analyzed_container";
 import { RecentTransactions } from "@/components/dashboard/recent_transactions/recent_transactions";
 import { Footer } from "@/components/footer";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Dashboard",
+};
 
 const Dashboard = () => {
   return (

@@ -1,5 +1,10 @@
 import { ProfileAnalyzedData } from "@/components/profile/profile_analyzed_container";
 import { ProfileInfo } from "@/components/profile/profile_info";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Profile",
+};
 
 const Profile = () => {
   return (

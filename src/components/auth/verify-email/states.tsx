@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import loading from "../../../../public/icons/base/loading.svg";
 import bg_2 from "../../../../public/backgrounds/bg_2.svg";
@@ -10,7 +11,7 @@ import { FaCircleCheck } from "react-icons/fa6";
 
 export const Verifying = () => {
   return (
-    <main className="flex flex-col h-full w-full items-center justify-center gap-5">
+    <>
       <Image
         alt="Loading..."
         src={loading}
@@ -26,13 +27,13 @@ export const Verifying = () => {
           Please wait while we verify your request.
         </div>
       </div>
-    </main>
+    </>
   );
 };
 
 export const TokenMissing = () => {
   return (
-    <main className="flex flex-col h-full w-full items-center justify-center gap-5">
+    <>
       <ImageBackground image={bg_2} />
 
       <BiSolidErrorCircle size={250} className="text-secondary" />
@@ -49,13 +50,13 @@ export const TokenMissing = () => {
       >
         Sign in
       </Link>
-    </main>
+    </>
   );
 };
 
 export const ErrorVerification = (err: ErrorResponse) => {
   return (
-    <main className="flex flex-col h-full w-full items-center justify-center gap-5">
+    <>
       <ImageBackground image={bg_2} />
 
       <BiSolidErrorCircle size={250} className="text-secondary" />
@@ -70,13 +71,13 @@ export const ErrorVerification = (err: ErrorResponse) => {
       >
         Sign in
       </Link>
-    </main>
+    </>
   );
 };
 
 export const SuccessfulEmailVerification = () => {
   return (
-    <main className="flex flex-col h-full w-full items-center justify-center gap-5">
+    <>
       <ImageBackground image={bg_2} />
 
       <FaCircleCheck size={250} className="text-secondary" />
@@ -93,6 +94,6 @@ export const SuccessfulEmailVerification = () => {
       >
         Sign in
       </Link>
-    </main>
+    </>
   );
 };
