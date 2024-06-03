@@ -20,6 +20,7 @@ export const Verifying = () => {
         height={250}
         width={250}
         className="animate-spin"
+        priority
       />
       <div className="flex flex-col text-center gap-2 animate-animfadeAbove">
         <div className="font-bold text-secondary text-2xl">Verifying...</div>

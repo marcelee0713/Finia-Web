@@ -21,6 +21,7 @@ export const Wave = () => {
         sizes="100vw"
         height={250}
         width={250}
+        priority
         className="animate-wiggle"
       />
 

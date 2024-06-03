@@ -61,7 +61,6 @@ export const TransactionFilters = ({
     onSuccess(res) {
       toast.dismiss();
       downloadCSV(res, "finia_transactions");
-      console.log(res);
     },
   };
 

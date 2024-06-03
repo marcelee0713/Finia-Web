@@ -10,6 +10,7 @@ import React, { useState } from "react";
 import { toast } from "sonner";
 import { IoMenu } from "react-icons/io5";
 import { mutate } from "swr";
+import { clearCache } from "@/utils/clear_cache";
 
 export const NavBar = () => {
   const { setUser } = useGlobalContext();
@@ -33,12 +34,13 @@ export const NavBar = () => {
       toast.dismiss();
       toast.error(result.message);
     },
-    onSuccess() {
+    async onSuccess() {
       setProcessing(false);
-      toast.dismiss();
-      router.replace("/sign-in");
       setUser(null);
+      await clearCache();
+      router.replace("/sign-in");
       mutate(`${apiUrl}/users/get-password`);
+      toast.dismiss();
     },
   };
 

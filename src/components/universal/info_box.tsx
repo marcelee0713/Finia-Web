@@ -66,6 +66,7 @@ export const InfoBox = ({ orientation, icon, useCase, title }: props) => {
         sizes="100vw"
         height={65}
         width={65}
+        priority
       />
 
       <div className={`flex flex-col gap-1 ${textStyle}`}>

@@ -13,6 +13,7 @@ export const ChartsLoading = () => {
         height={65}
         width={65}
         className="animate-spin"
+        priority
       />
       <div className="text-accent font-light">Fetching...</div>
     </div>

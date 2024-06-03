@@ -19,6 +19,7 @@ export const LoadingInfoBox = ({ containerStyle, textStyle }: props) => {
         sizes="100vw"
         height={65}
         width={65}
+        priority
       />
 
       <div
