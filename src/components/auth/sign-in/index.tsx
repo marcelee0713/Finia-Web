@@ -82,7 +82,7 @@ export const SignInForm = () => {
   return (
     <form
       onSubmit={handleSubmit((data) => signIn(data, signInCallback))}
-      className="flex flex-col gap-5 min-h-[500px] max-h-full w-[400px] border border-borderColor rounded-lg bg-primary p-5 py-6 lg:p-8 animate-animfadeAbove"
+      className="flex flex-col gap-5 h-[500px] tall:min-h-[500px] max-h-full w-[400px] border border-borderColor rounded-lg bg-primary p-5 py-6 lg:p-8 overflow-y-auto no-scrollbar animate-animfadeAbove"
     >
       <div className="flex flex-col gap-3">
         <h1 className="font-bold text-secondary text-3xl">Sign in</h1>

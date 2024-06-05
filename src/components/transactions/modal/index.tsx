@@ -114,6 +114,7 @@ export const TransactionModal = ({
     handleSubmit,
     setValue,
     clearErrors,
+    getValues,
     formState: { errors },
   } = useForm<TransactionFormData>({
     resolver: zodResolver(TransactionFormSchema),
@@ -211,11 +212,11 @@ export const TransactionModal = ({
   const transactionTypes = TRANSACTION_TYPES.filter((val) => val !== "ALL");
 
   return (
-    <div className="absolute inset-0 backdrop-blur-sm bg-opacity-80 bg-primary w-full h-[750px] lg:h-full z-10 flex items-center justify-center px-2 overflow-y-auto no-scrollbar">
+    <div className="absolute inset-0 backdrop-blur-sm bg-opacity-80 bg-primary w-full h-full z-10 flex items-center justify-center px-2 py-2">
       <form
         onSubmit={handleSubmit(onSubmit)}
         onKeyDown={preventEnterKeySubmission}
-        className="flex flex-col gap-5 min-h-[600px] max-h-full w-[400px] border border-borderColor rounded-lg bg-primary p-5 py-6 lg:p-8 animate-animfadeAbove"
+        className="flex flex-col gap-5 h-[600px] tall:min-h-[750px] max-h-full w-[400px] border border-borderColor rounded-lg bg-primary p-5 py-6 lg:p-8 overflow-y-auto no-scrollbar animate-animfadeAbove"
       >
         <div className="flex flex-col gap-3">
           <div className="flex gap-3 text-secondary justify-between items-center">
@@ -300,7 +301,11 @@ export const TransactionModal = ({
                 } ${errors.category && "border-2 border-borderColor"}`}
                 type="datetime-local"
                 placeholder="date"
-                {...register("date")}
+                {...register("date", {
+                  onChange(event) {
+                    setInitialDate(event.target.value);
+                  },
+                })}
               />
               <span
                 className={`text-rose-400 duration-300 opacity-0 ease-in text-xs font-openSans ${

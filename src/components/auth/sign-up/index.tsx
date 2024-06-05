@@ -52,7 +52,7 @@ export const SignUpForm = () => {
   return (
     <form
       onSubmit={handleSubmit((data) => signUp(data, states))}
-      className="flex flex-col gap-5 min-h-[600px] max-h-full w-[400px] border border-borderColor rounded-lg bg-primary p-5 py-6 lg:p-8  animate-animfadeAbove"
+      className="flex flex-col gap-5 h-[700px] tall:min-h-[800px] max-h-full w-[400px] border border-borderColor rounded-lg bg-primary p-5 py-6 lg:p-8 overflow-y-auto no-scrollbar animate-animfadeAbove"
     >
       <div className="flex flex-col gap-3">
         <h1 className="font-bold text-secondary text-3xl">Sign up</h1>

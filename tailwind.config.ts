@@ -8,6 +8,9 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      screens: {
+        tall: { raw: "(min-height: 800px)" },
+      },
       animation: {
         animfadeAbove: "fadeAbove 1.5s ease-in-out",
         animfadeBelow: "fadeBelow 1.5s ease-in-out",
