@@ -161,6 +161,7 @@ export const TransactionModal = ({
 
     if (isInExpenses) {
       setType("EXPENSES" as TransactionTypes);
+      setValue("type", "EXPENSES");
       return setCategoryArr(EXPENSES_CATEGORIES_ARR);
     }
 
@@ -168,6 +169,7 @@ export const TransactionModal = ({
 
     if (isInRevenues) {
       setType("REVENUE" as TransactionTypes);
+      setValue("type", "REVENUE");
       return setCategoryArr(REVENUE_CATEGORIES_ARR);
     }
   };
@@ -216,7 +218,7 @@ export const TransactionModal = ({
       <form
         onSubmit={handleSubmit(onSubmit)}
         onKeyDown={preventEnterKeySubmission}
-        className="flex flex-col gap-5 h-[600px] tall:min-h-[750px] max-h-full w-[400px] border border-borderColor rounded-lg bg-primary p-5 py-6 lg:p-8 overflow-y-auto no-scrollbar animate-animfadeAbove"
+        className="flex flex-col gap-5 h-[600px] tall:h-auto max-h-full w-[400px] border border-borderColor rounded-lg bg-primary p-5 py-6 lg:p-8 overflow-y-auto no-scrollbar animate-animfadeAbove"
       >
         <div className="flex flex-col gap-3">
           <div className="flex gap-3 text-secondary justify-between items-center">

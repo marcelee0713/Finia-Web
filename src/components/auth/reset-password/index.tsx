@@ -10,8 +10,11 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { ResetPasswordInput } from "./inputs";
 import { TokenMissing } from "../verify-email/states";
+import { useRouter } from "next/navigation";
 
 export const ResetPasswordForm = () => {
+  const router = useRouter();
+
   const [visible, setVisible] = useState(false);
 
   const [cfrmVisible, setCfrmVisible] = useState(false);
@@ -36,7 +39,12 @@ export const ResetPasswordForm = () => {
     onSuccess(result) {
       setProcessing(false);
       toast.dismiss();
-      toast.success(result);
+      toast.success(result, {
+        action: {
+          label: "Sign in",
+          onClick: () => router.replace("/sign-in"),
+        },
+      });
     },
   };
 
@@ -59,7 +67,7 @@ export const ResetPasswordForm = () => {
   return (
     <form
       onSubmit={handleSubmit((data) => resetPassword(data, token, callback))}
-      className="flex flex-col gap-5 h-[570px] tall:min-h-[570px] max-h-full w-[400px] border border-borderColor rounded-lg bg-primary p-5 py-6 lg:p-8 overflow-y-auto no-scrollbar animate-animfadeAbove"
+      className="flex flex-col gap-5 h-[570px] tall:h-auto max-h-full w-[400px] border border-borderColor rounded-lg bg-primary p-5 py-6 lg:p-8 overflow-y-auto no-scrollbar animate-animfadeAbove"
     >
       <div className="flex flex-col gap-3">
         <h1 className="font-bold text-secondary text-3xl">Reset Password</h1>

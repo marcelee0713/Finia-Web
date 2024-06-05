@@ -233,7 +233,5 @@ export const resetPassword = async (
     return;
   }
 
-  return onSuccess(
-    "We have sent you a link for password reset to your email address."
-  );
+  return onSuccess("You have successfully change your password!");
 };
