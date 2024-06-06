@@ -54,6 +54,13 @@ export interface TransactionData {
   filteredLength: string;
 }
 
+export interface EmptyInfo {
+  icon: any;
+  title: string;
+  info: string;
+  subInfo?: string;
+}
+
 export interface ActivityInfo {
   userId: string;
   useCase: TransactionUseCases;

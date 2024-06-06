@@ -7,6 +7,7 @@ import netIncome from "../../../public/icons/base/net-income.svg";
 import { MonthWiseLineChart } from "./charts/month_wise_line_chart";
 import { CategoryBarChart } from "./charts/category_bar_chart";
 import { TransactionTypes } from "@/types/transaction";
+import questionMark from "../../../public/icons/base/questionmark.svg";
 
 export const AnalyzedContainer = () => {
   const [mode, setMode] = useState<TransactionTypes>("EXPENSES");
@@ -38,6 +39,14 @@ export const AnalyzedContainer = () => {
                 ? "TOTAL_EXPENSES_INFO"
                 : "TOTAL_REVENUES_INFO"
             }
+            placeholder={{
+              icon: allTime,
+              info: "PHP 0.00",
+              title:
+                mode === "EXPENSES"
+                  ? "Total expenses all time"
+                  : "Total revenue all time",
+            }}
             icon={allTime}
           />
           <InfoBox
@@ -48,16 +57,45 @@ export const AnalyzedContainer = () => {
                 : "CURRENT_MONTH_REVENUE_INFO"
             }
             icon={calendar}
+            placeholder={{
+              icon: calendar,
+              info: "PHP 0.00",
+              title:
+                mode === "EXPENSES"
+                  ? "Current expenses this month"
+                  : "Current revenue this month",
+            }}
           />
         </div>
         <InfoBox
           orientation="column"
           useCase="NET_INCOME_INFO"
           icon={netIncome}
+          placeholder={{
+            icon: netIncome,
+            info: "PHP 0.00",
+            title: "Net income",
+          }}
         />
         <div className="flex-1 flex flex-col gap-5">
-          <InfoBox orientation="row" useCase="MOST_SPENT_CATEGORY_INFO" />
-          <InfoBox orientation="row" useCase="MOST_EARNED_INFO" />
+          <InfoBox
+            orientation="row"
+            placeholder={{
+              icon: questionMark,
+              info: "PHP 0.00",
+              title: "Most spent category",
+            }}
+            useCase="MOST_SPENT_CATEGORY_INFO"
+          />
+          <InfoBox
+            orientation="row"
+            placeholder={{
+              icon: questionMark,
+              info: "PHP 0.00",
+              title: "Most earned category",
+            }}
+            useCase="MOST_EARNED_INFO"
+          />
         </div>
       </div>
       <div className="flex-grow-[2] flex gap-5 flex-col xl:flex-row">

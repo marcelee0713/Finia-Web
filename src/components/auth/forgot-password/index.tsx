@@ -41,7 +41,7 @@ export const ForgotPasswordForm = () => {
   return (
     <form
       onSubmit={handleSubmit((data) => resetPasswordRequest(data, callback))}
-      className="flex flex-col gap-5 h-[300px] tall:h-auto max-h-full w-[400px] border border-borderColor rounded-lg bg-primary p-5 py-6 lg:p-8 overflow-y-auto no-scrollbar animate-animfadeAbove"
+      className="flex flex-col gap-5 h-auto max-h-full w-[400px] border border-borderColor rounded-lg bg-primary p-5 py-6 lg:p-8 overflow-y-auto no-scrollbar animate-animfadeAbove"
     >
       <div className="flex flex-col gap-3">
         <h1 className="font-bold text-secondary text-3xl">Forgot password?</h1>

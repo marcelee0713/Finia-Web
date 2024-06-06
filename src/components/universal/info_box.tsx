@@ -1,10 +1,10 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import Image from "next/image";
 import { TransactionUseCases } from "@/types/transaction";
 import useSWR from "swr";
 import { GetActivityInfo } from "@/api/transaction/activity_info";
-import { ActivityInfo } from "@/interfaces/transaction";
+import { ActivityInfo, EmptyInfo } from "@/interfaces/transaction";
 import { CategoryBasedOnIcon } from "@/utils/category_base";
 import { formatAmount } from "@/utils/amount_formatter";
 import { useGlobalContext } from "@/app/context/provider";
@@ -17,10 +17,16 @@ interface props {
   useCase: TransactionUseCases;
   icon?: any;
   title?: string;
-  importedData?: ActivityInfo;
+  placeholder: EmptyInfo;
 }
 
-export const InfoBox = ({ orientation, icon, useCase, title }: props) => {
+export const InfoBox = ({
+  orientation,
+  icon,
+  useCase,
+  title,
+  placeholder,
+}: props) => {
   const { user } = useGlobalContext();
 
   const containerStyle =
@@ -51,7 +57,11 @@ export const InfoBox = ({ orientation, icon, useCase, title }: props) => {
 
   if (!data) {
     return (
-      <EmptyInfoBox containerStyle={containerStyle} textStyle={textStyle} />
+      <EmptyInfoBox
+        containerStyle={containerStyle}
+        textStyle={textStyle}
+        emptyData={placeholder}
+      />
     );
   }
 
