@@ -5,6 +5,7 @@ import { TransactionModal } from ".";
 import { toast } from "sonner";
 import { CallbacksInterface } from "@/interfaces/form";
 import { DeleteTransaction } from "@/api/transaction/data";
+import { useGlobalContext } from "@/app/context/provider";
 
 interface props {
   obj: Transaction;
@@ -13,6 +14,7 @@ interface props {
 }
 
 export const CellActionButton = ({ obj, revalidate, data }: props) => {
+  const { user } = useGlobalContext();
   const [isActive, setIsActive] = useState(false);
   const [updateModal, setUpdateModal] = useState(false);
   const modalRef = useRef<HTMLUListElement | null>(null);
@@ -84,7 +86,7 @@ export const CellActionButton = ({ obj, revalidate, data }: props) => {
                 action: {
                   label: "Yes",
                   onClick: async () =>
-                    await DeleteTransaction(obj.uid, callback),
+                    await DeleteTransaction(obj.uid, callback, user?.token),
                 },
                 closeButton: true,
               });

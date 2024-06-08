@@ -13,7 +13,7 @@ import { mutate } from "swr";
 import { clearCache } from "@/utils/clear_cache";
 
 export const NavBar = () => {
-  const { setUser } = useGlobalContext();
+  const { user, setUser } = useGlobalContext();
 
   const [active, setActive] = useState(false);
 
@@ -35,10 +35,11 @@ export const NavBar = () => {
       toast.error(result.message);
     },
     async onSuccess() {
+      router.replace("/sign-in");
       setProcessing(false);
       setUser(null);
       await clearCache();
-      router.replace("/sign-in");
+      mutate(`/api/user`);
       mutate(`${apiUrl}/users/get-password`);
       toast.dismiss();
     },
@@ -84,7 +85,7 @@ export const NavBar = () => {
 
         <button
           disabled={processing}
-          onClick={async () => await logOut(`${apiUrl}/users/logout`, cb)}
+          onClick={async () => await logOut(`/api/sign-out`, cb, user?.token)}
           className="hidden lg:block text-secondary text-sm font-light cursor-pointer"
         >
           Log out
@@ -130,7 +131,7 @@ export const NavBar = () => {
 
         <button
           disabled={processing}
-          onClick={async () => await logOut(`${apiUrl}/users/logout`, cb)}
+          onClick={async () => await logOut(`/api/sign-out`, cb, user?.token)}
           className="text-secondary text-sm font-light cursor-pointer"
         >
           Log out

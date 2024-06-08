@@ -57,11 +57,12 @@ export const getUserPass = async (endpoint: string): Promise<string> => {
 export const changePassword = async (
   data: ChangePasswordFormData,
   userId: string,
+  token: string,
   { onLoading, onSuccess, onError }: CallbacksInterface
 ): Promise<void> => {
   onLoading();
 
-  const res = await fetch(`${apiUrl}/users/change-password`, {
+  const res = await fetch("/api/change-password", {
     headers: {
       "Content-Type": "application/json",
     },
@@ -69,8 +70,8 @@ export const changePassword = async (
       uid: userId,
       newPassword: data.password,
       removeSessions: "YES",
+      token: token,
     }),
-    mode: "cors",
     credentials: "include",
     method: "PATCH",
   });
@@ -95,15 +96,15 @@ export const changePassword = async (
 
 export const logOut = async (
   endpoint: string,
-  { onLoading, onSuccess, onError }: CallbacksInterface
+  { onLoading, onSuccess, onError }: CallbacksInterface,
+  token?: string
 ): Promise<void> => {
   onLoading();
 
-  const res = await fetch(endpoint, {
+  const res = await fetch(`${endpoint}?token=${token}`, {
     headers: {
       "Content-Type": "application/json",
     },
-    mode: "cors",
     credentials: "include",
     method: "DELETE",
   });

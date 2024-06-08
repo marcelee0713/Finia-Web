@@ -18,11 +18,10 @@ export const signIn = async (
 
   const password = data.password;
 
-  const res = await fetch(`${apiUrl}/users/login`, {
+  const res = await fetch("/api/sign-in", {
     headers: {
       "Content-Type": "application/json",
     },
-    mode: "cors",
     credentials: "include",
     body: JSON.stringify({
       username: username,

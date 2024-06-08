@@ -25,7 +25,7 @@ export const ChangePassword = ({
 }: props) => {
   const router = useRouter();
 
-  const { setUser } = useGlobalContext();
+  const { user, setUser } = useGlobalContext();
 
   const [visible, setVisible] = useState(false);
 
@@ -71,6 +71,8 @@ export const ChangePassword = ({
   });
 
   const onSubmit = async (data: ChangePasswordFormData) => {
+    if (!user) return;
+
     if (!checked) {
       toast.info("Check the checkbox to proceed!");
       return;
@@ -90,7 +92,7 @@ export const ChangePassword = ({
       return;
     }
 
-    await changePassword(data, userId, callback);
+    await changePassword(data, userId, user.token, callback);
   };
 
   const preventEnterKeySubmission = (

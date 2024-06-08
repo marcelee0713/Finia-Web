@@ -1,6 +1,5 @@
 "use client";
 import { emailVerificationRequest, signIn } from "@/api/auth";
-import apiUrl from "@/config";
 import { CallbacksInterface, SignInFormData } from "@/interfaces/form";
 import { signInSchema } from "@/schemas/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -67,7 +66,7 @@ export const SignInForm = () => {
       setProcessing(false);
       toast.dismiss();
       router.replace("/dashboard");
-      mutate(`${apiUrl}/users`);
+      mutate("/api/user");
     },
   };
 

@@ -6,7 +6,7 @@ import { ProviderData, UserData } from "@/interfaces/user";
 import { createContext, useState, ReactNode, useContext } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import useSWR from "swr";
-import { AUTH_PAGES, UNIVERSAL_PAGES, USER_PAGES } from "@/constants";
+import { AUTH_PAGES, USER_PAGES } from "@/constants";
 import { ErrorResponse } from "@/interfaces/error";
 
 interface props {
@@ -21,15 +21,16 @@ export const Context = createContext<ProviderData>({
 export const Provider: React.FC<props> = ({ children }) => {
   const [user, setUser] = useState<UserData>(null);
 
-  const [active, setActive] = useState(false);
-
   const pathname = usePathname();
 
   const router = useRouter();
 
-  useSWR<UserData>(`${apiUrl}/users`, getUserData, {
+  useSWR<UserData>("/api/user", getUserData, {
+    revalidateOnFocus: false,
     onSuccess(data) {
       setUser(data);
+
+      console.table(data);
 
       if (AUTH_PAGES.includes(pathname) && pathname !== "/about") {
         router.replace("/dashboard");
@@ -53,7 +54,6 @@ export const Provider: React.FC<props> = ({ children }) => {
           action: {
             label: "Okay",
             onClick: () => {
-              setActive(false);
               router.replace("/sign-in");
               toast.dismiss();
             },

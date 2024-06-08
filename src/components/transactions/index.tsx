@@ -16,8 +16,11 @@ import { PaginationState, SortingState } from "@tanstack/react-table";
 import { useDebouncedCallback } from "use-debounce";
 import { TransactionModal } from "./modal";
 import useSWRImmutable from "swr/immutable";
+import { useGlobalContext } from "@/app/context/provider";
 
 export const TransactionTable = () => {
+  const { user } = useGlobalContext();
+
   const [isActive, setIsActive] = useState(false);
 
   const [minPrice, setMinPrice] = useState<string>("");
@@ -141,16 +144,27 @@ export const TransactionTable = () => {
     dateOrder: "desc",
   });
 
+  const [isLoading, setIsLoading] = useState(true);
+
   const {
     data: transactions,
     error,
-    isLoading,
     isValidating,
     mutate,
-  } = useSWRImmutable<TransactionData>(body, (body) => GetTransactions(body), {
-    keepPreviousData: true,
-    revalidateIfStale: true,
-  });
+  } = useSWRImmutable<TransactionData>(
+    user ? body : null,
+    (body) => GetTransactions(body, user?.token),
+    {
+      onSuccess() {
+        setIsLoading(true);
+      },
+      onError() {
+        setIsLoading(true);
+      },
+      keepPreviousData: true,
+      revalidateIfStale: true,
+    }
+  );
 
   const [pagination, setPagination] = React.useState<PaginationState>({
     pageIndex: skip,

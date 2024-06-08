@@ -9,9 +9,10 @@ import {
 } from "@/interfaces/transaction";
 
 export const GetActivityInfo = async (
-  req: GetActivityRequest
+  req: GetActivityRequest,
+  token?: string
 ): Promise<ActivityInfo | undefined> => {
-  const res = await fetch(`${apiUrl}/transactions/`, {
+  const res = await fetch(`${apiUrl}/transactions?token=${token}`, {
     headers: {
       "Content-Type": "application/json",
     },
@@ -44,9 +45,10 @@ export const GetActivityInfo = async (
 };
 
 export const GetMonthWiseData = async (
-  req: GetActivityRequest
+  req: GetActivityRequest,
+  token?: string
 ): Promise<MonthlyData | undefined> => {
-  const res = await fetch(`${apiUrl}/transactions/`, {
+  const res = await fetch(`${apiUrl}/transactions?token=${token}`, {
     headers: {
       "Content-Type": "application/json",
     },
@@ -79,9 +81,10 @@ export const GetMonthWiseData = async (
 };
 
 export const GetCategoryData = async (
-  req: GetActivityRequest
+  req: GetActivityRequest,
+  token?: string
 ): Promise<CategoryData | undefined> => {
-  const res = await fetch(`${apiUrl}/transactions/`, {
+  const res = await fetch(`${apiUrl}/transactions?token=${token}`, {
     headers: {
       "Content-Type": "application/json",
     },

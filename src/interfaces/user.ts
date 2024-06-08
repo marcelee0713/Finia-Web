@@ -5,6 +5,7 @@ export type UserData = {
   emailVerified: string;
   createdAt: string;
   role: string;
+  token: string;
 } | null;
 
 export interface ProviderData {

@@ -16,14 +16,21 @@ import { getUserPass } from "@/api/user";
 export const ProfileInfo = () => {
   const { user } = useGlobalContext();
   const [isActive, setActive] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const {
-    data: password,
-    error,
-    isLoading,
-  } = useSWRImmutable<string>(`${apiUrl}/users/get-password`, getUserPass, {
-    revalidateOnMount: true,
-  });
+  const { data: password, error } = useSWRImmutable<string>(
+    user ? `${apiUrl}/users/get-password?token=${user.token}` : null,
+    getUserPass,
+    {
+      onSuccess() {
+        setIsLoading(false);
+      },
+      onError() {
+        setIsLoading(false);
+      },
+      revalidateOnMount: true,
+    }
+  );
 
   return (
     <div className="w-full lg:w-[300px] flex flex-col gap-5 text-secondary items-center lg:items-start">

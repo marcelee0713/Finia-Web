@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import { TransactionUseCases } from "@/types/transaction";
 import useSWR from "swr";
@@ -34,9 +34,19 @@ export const InfoBox = ({
 
   const textStyle = orientation === "row" ? "" : "text-center";
 
-  const { error, data, isLoading } = useSWR<ActivityInfo | undefined>(
-    [{ useCase: useCase }],
-    ([body]) => GetActivityInfo(body)
+  const [isLoading, setIsLoading] = useState(true);
+
+  const { error, data } = useSWR<ActivityInfo | undefined>(
+    user ? [{ useCase: useCase }] : null,
+    ([body]) => GetActivityInfo(body, user?.token),
+    {
+      onSuccess() {
+        setIsLoading(false);
+      },
+      onError() {
+        setIsLoading(false);
+      },
+    }
   );
 
   if (error) {

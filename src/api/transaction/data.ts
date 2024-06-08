@@ -11,11 +11,12 @@ import {
 
 export const CreateTransaction = async (
   body: TransactionFormData,
-  { onLoading, onError, onSuccess }: CallbacksInterface
+  { onLoading, onError, onSuccess }: CallbacksInterface,
+  token?: string
 ): Promise<void> => {
   onLoading();
 
-  const res = await fetch(`${apiUrl}/transactions/create`, {
+  const res = await fetch(`${apiUrl}/transactions/create?token=${token}`, {
     headers: {
       "Content-Type": "application/json",
     },
@@ -46,9 +47,10 @@ export const CreateTransaction = async (
 };
 
 export const GetTransactions = async (
-  req: GetActivityRequest
+  req: GetActivityRequest,
+  token?: string
 ): Promise<TransactionData> => {
-  const res = await fetch(`${apiUrl}/transactions/`, {
+  const res = await fetch(`${apiUrl}/transactions?token=${token}`, {
     headers: {
       "Content-Type": "application/json",
     },
@@ -92,11 +94,12 @@ export const GetTransactions = async (
 
 export const UpdateTransaction = async (
   body: TransactionFormData,
-  { onLoading, onError, onSuccess }: CallbacksInterface
+  { onLoading, onError, onSuccess }: CallbacksInterface,
+  token?: string
 ): Promise<void> => {
   onLoading();
 
-  const res = await fetch(`${apiUrl}/transactions/`, {
+  const res = await fetch(`${apiUrl}/transactions?token=${token}`, {
     headers: {
       "Content-Type": "application/json",
     },
@@ -128,11 +131,12 @@ export const UpdateTransaction = async (
 
 export const DeleteTransaction = async (
   uid: string,
-  { onLoading, onError, onSuccess }: CallbacksInterface
+  { onLoading, onError, onSuccess }: CallbacksInterface,
+  token?: string
 ): Promise<void> => {
   onLoading();
 
-  const res = await fetch(`${apiUrl}/transactions/`, {
+  const res = await fetch(`${apiUrl}/transactions?token=${token}`, {
     headers: {
       "Content-Type": "application/json",
     },

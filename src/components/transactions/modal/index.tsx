@@ -16,6 +16,7 @@ import {
   TRANSACTION_TYPES,
 } from "@/constants";
 import { TransactionTypes } from "@/types/transaction";
+import { useGlobalContext } from "@/app/context/provider";
 
 interface props {
   setModal: Dispatch<SetStateAction<boolean>>;
@@ -32,6 +33,7 @@ export const TransactionModal = ({
   mode,
   currentObjData,
 }: props) => {
+  const { user } = useGlobalContext();
   const [initialDate, setInitialDate] = useState<string | undefined>("");
 
   const [type, setType] = useState<TransactionTypes | string>("");
@@ -180,12 +182,18 @@ export const TransactionModal = ({
       return;
     }
 
+    console.table(data);
+
     if (mode === "CREATE") {
-      await CreateTransaction(data, callback);
+      await CreateTransaction(data, callback, user?.token);
     } else {
       if (!currentObjData) return;
 
-      await UpdateTransaction({ ...data, uid: currentObjData.uid }, callback);
+      await UpdateTransaction(
+        { ...data, uid: currentObjData.uid },
+        callback,
+        user?.token
+      );
     }
   };
 

@@ -1,13 +1,10 @@
 import { NextResponse, NextRequest } from "next/server";
+import { cookies } from "next/headers";
 
 export async function middleware(req: NextRequest) {
-  const haveToken = req.cookies.has("token");
+  const haveToken = cookies().has("token");
 
   const pathname = req.nextUrl.pathname;
-
-  const next = NextResponse.next();
-
-  const signIn = new URL("/sign-in", req.url);
 
   const onAuthPages =
     pathname.startsWith("/sign-in") ||
@@ -17,16 +14,21 @@ export async function middleware(req: NextRequest) {
     pathname.startsWith("/verify-email") ||
     pathname.startsWith("/greet");
 
+  const onUserPages =
+    pathname.startsWith("/dashboard") ||
+    pathname.startsWith("/transactions") ||
+    pathname.startsWith("/profile");
+
   if (haveToken) {
     if (pathname === "/" || onAuthPages) {
       return NextResponse.redirect(new URL("/dashboard", req.url));
     }
   } else {
     if (pathname === "/") {
-      return next;
+      return NextResponse.next();
     }
 
-    if (!onAuthPages) {
+    if (onUserPages) {
       return NextResponse.redirect(new URL("/sign-in", req.url));
     }
   }

@@ -19,7 +19,7 @@ interface props {
 export const TransactionsCount = ({ user, useCase }: props) => {
   const { data, error, isLoading } = useSWR<ActivityInfo | undefined>(
     user ? [{ userId: user.uid, useCase: useCase, skip: "0" }] : null,
-    ([body]) => GetActivityInfo(body)
+    ([body]) => GetActivityInfo(body, user?.token)
   );
 
   if (error) return <ErrorTransactionProfileData error={error} />;

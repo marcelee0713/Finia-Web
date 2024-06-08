@@ -3,7 +3,7 @@ import { GetTransactions } from "@/api/transaction/data";
 import { useGlobalContext } from "@/app/context/provider";
 import { TransactionData } from "@/interfaces/transaction";
 import _ from "lodash";
-import React from "react";
+import React, { useState } from "react";
 import useSWR from "swr";
 import { RecentTransactionBox } from "./recent_transaction_box";
 import { LoadingRecentTransactions } from "./states/loading";
@@ -13,13 +13,19 @@ import { EmptyRecentTransactions } from "./states/no-content";
 export const RecentTransactionsContainer = () => {
   const { user } = useGlobalContext();
 
-  const {
-    data: transactions,
-    error,
-    isLoading,
-  } = useSWR<TransactionData>(
+  const [isLoading, setIsLoading] = useState(true);
+
+  const { data: transactions, error } = useSWR<TransactionData>(
     user ? [{ userId: user.uid, skip: "0", take: "10" }] : null,
-    ([body]) => GetTransactions(body)
+    ([body]) => GetTransactions(body, user?.token),
+    {
+      onSuccess() {
+        setIsLoading(false);
+      },
+      onError() {
+        setIsLoading(false);
+      },
+    }
   );
 
   if (!user || isLoading) return <LoadingRecentTransactions />;
