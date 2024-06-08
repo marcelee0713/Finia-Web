@@ -30,8 +30,6 @@ export const Provider: React.FC<props> = ({ children }) => {
     onSuccess(data) {
       setUser(data);
 
-      console.table(data);
-
       if (AUTH_PAGES.includes(pathname) && pathname !== "/about") {
         router.replace("/dashboard");
       }
